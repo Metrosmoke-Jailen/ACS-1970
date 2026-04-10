@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "title": "The Godfather",
+    "genre": "Crime",
+    "year": 1972,
+    "ratings": [
+      5,
+      5,
+      4,
+      5.0,
+      9.5
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Inception",
+    "genre": "Sci-Fi",
+    "year": 2010,
+    "ratings": [
+      5,
+      4,
+      5
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Spirited Away",
+    "genre": "Animation",
+    "year": 2001,
+    "ratings": [
+      5,
+      5
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Interstellar",
+    "genre": "Sci-Fi",
+    "year": 2014,
+    "ratings": [
+      4.5
+    ]
+  },
+  {
+    "id": 5,
+    "title": "avenger endgame",
+    "genre": "Action",
+    "year": 2019,
+    "ratings": [
+      10.0,
+      5.0,
+      8.0,
+      4.0,
+      3.0,
+      6.0,
+      8.0
+    ]
+  }
+]
