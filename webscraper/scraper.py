@@ -92,18 +92,3 @@ def print_histogram(result: dict):
         bar = "█" * round(pct / max_pct * BAR_WIDTH)
         print(f"  {star:8s} | {bar:<{BAR_WIDTH}} {pct:2d}%")
     print()
-
-
-async def main():
-    slugs = ["inception", "the-godfather", "midsommar"]
-
-    for slug in slugs:
-        try:
-            result = await get_rating_distribution(slug)
-            print_histogram(result)
-        except Exception as e:
-            print(f"  Error scraping '{slug}': {e}")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
