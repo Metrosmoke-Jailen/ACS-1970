@@ -6,3 +6,11 @@ __pycache__/
 # Node
 frontend/node_modules/
 frontend/dist/
+
+.env
+CLAUDE.MD
+
+# Movie data output
+movie_data/movie_data.json
+movie_data/movie_data.csv
+
