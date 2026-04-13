@@ -50,6 +50,13 @@ async def get_rating_distribution(film_slug: str) -> dict:
     title = soup.find("h1", class_="headline-1")
     film_title = title.get_text(strip=True) if title else film_slug
 
+    imdb_id = None
+    imdb_link = soup.find("a", href=re.compile(r"imdb\.com/title/(tt\d+)"))
+    if imdb_link:
+        match = re.search(r"imdb\.com/title/(tt\d+)", imdb_link["href"])
+        if match:
+            imdb_id = match.group(1)
+
     histogram_div = soup.find("div", class_="rating-histogram")
     if not histogram_div:
         raise ValueError(f"No histogram found for '{film_slug}'")
@@ -76,7 +83,7 @@ async def get_rating_distribution(film_slug: str) -> dict:
 
         distribution[bucket] = pct
 
-    return {"title": film_title, "slug": film_slug, "distribution": distribution}
+    return {"title": film_title, "slug": film_slug, "imdb_id": imdb_id, "distribution": distribution}
 
 
 def print_histogram(result: dict):
