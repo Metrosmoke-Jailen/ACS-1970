@@ -6,10 +6,20 @@ from scraper import get_rating_distribution, print_histogram
 from api import get_movie_metadata
 
 
+def calculate_nps(distribution: dict) -> float | None:
+    if not distribution:
+        return None
+    promoters = sum(distribution.get(k, 0) for k in [9, 10])
+    detractors = sum(distribution.get(k, 0) for k in [1, 2, 3, 4, 5, 6])
+    return round(promoters - detractors, 1)
+
+
 async def run_batch(slugs: list[str]) -> list[dict]:
     results = []
 
     for i, slug in enumerate(slugs, start=1):
+        if i > 1:
+            await asyncio.sleep(2)
         try:
             print(f"[{i}/{len(slugs)}] Scraping {slug}...")
             scraped = await get_rating_distribution(slug)
@@ -35,11 +45,13 @@ async def run_batch(slugs: list[str]) -> list[dict]:
             except Exception as e:
                 print(f"  Metadata error for '{slug}' ({scraped['imdb_id']}): {e}")
 
+        dist = scraped["distribution"]
         results.append({
             "title": scraped["title"],
             "slug": scraped["slug"],
             "imdb_id": scraped["imdb_id"],
-            "distribution": scraped["distribution"],
+            "distribution": dist,
+            "nps_score": calculate_nps(dist),
             "description": metadata.get("description"),
             "release_date": metadata.get("release_date"),
             "poster_url": metadata.get("poster_url"),
@@ -73,6 +85,7 @@ def save_csv(results: list[dict], filename: str = "movie_data.csv") -> None:
         "bucket_8",
         "bucket_9",
         "bucket_10",
+        "nps_score",
         "error",
     ]
 
@@ -100,6 +113,7 @@ def save_csv(results: list[dict], filename: str = "movie_data.csv") -> None:
                 "bucket_8": dist.get(8, 0),
                 "bucket_9": dist.get(9, 0),
                 "bucket_10": dist.get(10, 0),
+                "nps_score": result.get("nps_score"),
                 "error": result.get("error", ""),
             }
             writer.writerow(row)
