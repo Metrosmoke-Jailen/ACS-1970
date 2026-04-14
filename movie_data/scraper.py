@@ -40,7 +40,8 @@ async def get_rating_distribution(film_slug: str) -> dict:
         )
 
         await page.goto(url, wait_until="domcontentloaded", timeout=30000)
-        await page.wait_for_selector(".rating-histogram", timeout=10000)
+        await page.wait_for_selector(".rating-histogram", timeout=15000)
+        await page.wait_for_timeout(2000)
 
         html = await page.content()
         await browser.close()
@@ -61,11 +62,12 @@ async def get_rating_distribution(film_slug: str) -> dict:
     if not histogram_div:
         raise ValueError(f"No histogram found for '{film_slug}'")
 
-    bars = histogram_div.find_all("li", class_="rating-histogram-bar")
+    # New structure: <tr class="column"> inside <tbody class="plot">
+    bars = histogram_div.find_all("tr", class_="column")
 
     distribution = {}  # bucket_int (1–10) -> percentage int
     for bar in bars:
-        link = bar.find("a")
+        link = bar.find("a", class_="barcolumn")
         if not link:
             continue
 
@@ -73,7 +75,7 @@ async def get_rating_distribution(film_slug: str) -> dict:
         pct_match = re.search(r"\((\d+)%\)", title_attr)
         pct = int(pct_match.group(1)) if pct_match else 0
 
-        star_label_match = re.search(r"[\d,]+ (.+?) ratings", title_attr)
+        star_label_match = re.search(r"[\d,.]+ (?:K |M )?(.+?) ratings", title_attr)
         if not star_label_match:
             continue
         star_label = star_label_match.group(1).strip()
@@ -96,7 +98,7 @@ def print_histogram(result: dict):
     for bucket in range(1, 11):
         star = INT_TO_STAR[bucket]
         pct = dist.get(bucket, 0)
-        bar = "█" * round(pct / max_pct * BAR_WIDTH)
+        bar = "█" * round(pct / max_pct * BAR_WIDTH) if max_pct else ""
         print(f"  {star:8s} | {bar:<{BAR_WIDTH}} {pct:2d}%")
     print()
 
