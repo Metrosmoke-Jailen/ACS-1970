@@ -15,14 +15,14 @@ import Movie from './Fields/Movie/Movie'
 
 function App() {
 
-  // ---- TOPBAR ---- //
+  // ---- TOPBAR PROPS/STATE---- //
   const [isSidebarToggled, setSidebarToggle] = useState(true)
   const [context, setContext] = useState({
-    field: null,
-    queryPlaceholder: 'Got something in mind?'
+    field: 'movie',
+    queryPlaceholder: 'Looking for a certain movie?'
   })
   const [query, setQuery] = useState('')
-  const username = 'Test'
+  const username = 'Test-User'
 
 
   // ------- ACTUAL RENDER ------- //
@@ -31,6 +31,7 @@ function App() {
       <Topbar
         sidebarToggle={{ isSidebarToggled, setSidebarToggle }}
         context={context}
+        handleSetFieldHome={() => setContext({ field: null, queryPlaceholder: 'Got something in mind?' })}
         username={username}
         query={query}
         handleSetQuery={(e) => setQuery(e.target.value)}

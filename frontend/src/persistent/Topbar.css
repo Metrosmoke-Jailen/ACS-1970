@@ -1,16 +1,17 @@
 header {
+    height: 54px;
     display: flex;
     align-items: center;
 
     background-color: var(--bg-secondary);
     border-bottom: 2px solid var(--accent-secondary);
 
-    padding: 0.6rem 1rem;
-    gap: 1rem;
+    padding: 0 0.6rem;
+    gap: 0.6rem;
 }
 
 .topbarLogo {
-    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
     font-weight: 600;
 
     color: var(--text-main);
@@ -29,8 +30,21 @@ header {
     align-items: center;
     justify-content: center;
 
-    gap: 1rem;
     min-width: 0;
+}
+
+.topbarField {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+    font-weight: 600;
+
+    color: var(--text-main);
+    text-decoration: none;
+
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius);
+
+    transition: all 0.2s ease;
 }
 
 .topbarQueryBar {
@@ -38,7 +52,7 @@ header {
     max-width: 600px;
     min-width: 120px;
 
-    padding: 0.5rem 0.8rem;
+    padding: 0.6rem 0.8rem;
     border-radius: var(--radius);
 
     border: 1px solid var(--accent-secondary);

@@ -161,7 +161,7 @@ button {
     box-shadow: var(--shadow-sm);
 }
 
-/* PRIMARY */
+/* BUTTON PRIMARY */
 .btn-primary {
     background: var(--accent-main);
     color: white;
@@ -173,7 +173,7 @@ button {
     transform: translateY(-1px);
 }
 
-/* SECONDARY */
+/* BUTTON SECONDARY */
 .btn-secondary {
     background: var(--bg-secondary);
     color: var(--text-primary);
@@ -184,7 +184,7 @@ button {
     background: var(--bg-primary);
 }
 
-/* GHOST */
+/* BUTTON GHOST */
 .btn-ghost {
     background: transparent;
     color: var(--text-secondary);
@@ -196,7 +196,7 @@ button {
     color: var(--text-main);
 }
 
-/* DANGER */
+/* BUTTON DANGER */
 .btn-danger {
     background: #ef4444;
     color: white;
@@ -206,7 +206,7 @@ button {
     background: #dc2626;
 }
 
-/* SIZES */
+/* BUTTON SIZES */
 .btn-sm {
     padding: 0.3rem 0.7rem;
     font-size: 0.85rem;
@@ -217,7 +217,7 @@ button {
     font-size: 1.05rem;
 }
 
-/* STATES */
+/* BUTTON STATES */
 button:active {
     transform: scale(0.97);
 }
@@ -229,6 +229,27 @@ button:disabled {
 }
 
 /* END BUTTONS ******************************************** */
+
+/* START INPUTS ****************************************** */
+input {
+    font-family: inherit;
+    border-radius: var(--radius);
+    border: 1px solid var(--accent-secondary);
+
+    background: var(--bg-primary);
+    color: var(--text-primary);
+
+    padding: 0.5rem 0.8rem;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(var(--accent-main-rgb), 0.15);
+}
+
+/* END INPUTS ****************************************** */
 
 /*************************************************************/
 /*---END GLOBAL CSS------------------------------------------*/
