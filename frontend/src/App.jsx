@@ -5,7 +5,7 @@ import './App.css'
 import Topbar from './persistent/Topbar'
 import Sidebar from './persistent/Sidebar'
 import Footer from './persistent/Footer'
-import Home from './Home/Home'
+import Home from './Fields/Home/Home'
 
 import Movie from './Fields/Movie/Movie'
 
@@ -18,8 +18,8 @@ function App() {
   // ---- TOPBAR PROPS/STATE ---- //
   const [isSidebarToggled, setSidebarToggle] = useState(true)
   const [context, setContext] = useState({
-    field: 'movie',
-    queryPlaceholder: 'Looking for a certain movie?'
+    field: null,
+    queryPlaceholder: 'Got something in mind?'
   })
   const [query, setQuery] = useState('')
   const username = 'Test-User'
