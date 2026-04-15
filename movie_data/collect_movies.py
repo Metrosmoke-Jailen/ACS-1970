@@ -9,8 +9,8 @@ from api import get_movie_metadata
 def calculate_nps(distribution: dict) -> float | None:
     if not distribution:
         return None
-    promoters = sum(distribution.get(k, 0) for k in [9, 10])
-    detractors = sum(distribution.get(k, 0) for k in [1, 2, 3, 4, 5, 6])
+    promoters = sum(distribution.get(k, 0) for k in [8, 9, 10])
+    detractors = sum(distribution.get(k, 0) for k in [1, 2, 3, 4])
     return round(promoters - detractors, 1)
 
 
@@ -25,17 +25,19 @@ async def run_batch(slugs: list[str]) -> list[dict]:
             scraped = await get_rating_distribution(slug)
         except Exception as e:
             print(f"  Scrape error for '{slug}': {e}")
-            results.append({
-                "title": None,
-                "slug": slug,
-                "imdb_id": None,
-                "distribution": {},
-                "description": None,
-                "release_date": None,
-                "poster_url": None,
-                "tmdb_id": None,
-                "error": str(e),
-            })
+            results.append(
+                {
+                    "title": None,
+                    "slug": slug,
+                    "imdb_id": None,
+                    "distribution": {},
+                    "description": None,
+                    "release_date": None,
+                    "poster_url": None,
+                    "tmdb_id": None,
+                    "error": str(e),
+                }
+            )
             continue
 
         metadata = {}
@@ -46,17 +48,19 @@ async def run_batch(slugs: list[str]) -> list[dict]:
                 print(f"  Metadata error for '{slug}' ({scraped['imdb_id']}): {e}")
 
         dist = scraped["distribution"]
-        results.append({
-            "title": scraped["title"],
-            "slug": scraped["slug"],
-            "imdb_id": scraped["imdb_id"],
-            "distribution": dist,
-            "nps_score": calculate_nps(dist),
-            "description": metadata.get("description"),
-            "release_date": metadata.get("release_date"),
-            "poster_url": metadata.get("poster_url"),
-            "tmdb_id": metadata.get("tmdb_id"),
-        })
+        results.append(
+            {
+                "title": scraped["title"],
+                "slug": scraped["slug"],
+                "imdb_id": scraped["imdb_id"],
+                "distribution": dist,
+                "nps_score": calculate_nps(dist),
+                "description": metadata.get("description"),
+                "release_date": metadata.get("release_date"),
+                "poster_url": metadata.get("poster_url"),
+                "tmdb_id": metadata.get("tmdb_id"),
+            }
+        )
 
     return results
 
