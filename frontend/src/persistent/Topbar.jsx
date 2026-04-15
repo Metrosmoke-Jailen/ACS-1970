@@ -11,7 +11,7 @@ function Topbar({ sidebarToggle, handleSetFieldHome, query, handleSetQuery, cont
       <button
         className="topbarSidebarToggle btn-primary"
         onClick={() => setSidebarToggle(!isSidebarToggled)}>
-        {isSidebarToggled ? '-' : '+'}
+        {isSidebarToggled ? '←' : '→'}
       </button>
       <NavLink
         className='topbarLogo'

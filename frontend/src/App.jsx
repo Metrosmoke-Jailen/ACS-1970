@@ -15,7 +15,7 @@ import Movie from './Fields/Movie/Movie'
 
 function App() {
 
-  // ---- TOPBAR PROPS/STATE---- //
+  // ---- TOPBAR PROPS/STATE ---- //
   const [isSidebarToggled, setSidebarToggle] = useState(true)
   const [context, setContext] = useState({
     field: 'movie',
@@ -23,7 +23,6 @@ function App() {
   })
   const [query, setQuery] = useState('')
   const username = 'Test-User'
-
 
   // ------- ACTUAL RENDER ------- //
   return (
@@ -36,11 +35,15 @@ function App() {
         query={query}
         handleSetQuery={(e) => setQuery(e.target.value)}
       />
-      <Sidebar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/movie' element={<Movie />} />
-      </Routes>
+
+      <div className="sandwichedContent">
+        <Sidebar isCompact={!isSidebarToggled} />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/movie' element={<Movie />} />
+        </Routes>
+      </div>
+
       <Footer />
     </div>
   )

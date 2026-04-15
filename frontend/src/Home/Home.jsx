@@ -1,7 +1,7 @@
 import './Home.css'
 
 function Home() {
-    return 'Working'
+    return 'Home Page Working'
 }
 
 export default Home

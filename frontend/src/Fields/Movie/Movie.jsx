@@ -1,7 +1,7 @@
 import './Movie.css'
 
 function Movie() {
-    return Movie
+    return 'Movie Page Working'
 }
 
 export default Movie
