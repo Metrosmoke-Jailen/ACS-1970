@@ -1,0 +1,32 @@
+.card {
+    min-width: 160px;
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent-secondary);
+    border-radius: var(--radius);
+
+    font-weight: 600;
+
+    flex-shrink: 0;
+    scroll-snap-align: start;
+
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-primary);
+}
+
+.card.category {
+    background: var(--accent-secondary);
+}
+
+.card.content {
+    background: var(--bg-primary);
+}
