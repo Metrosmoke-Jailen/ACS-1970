@@ -61,8 +61,6 @@ body {
     --accent-secondary-rgb: 255, 210, 176;
 }
 
-/* A little bluer than --bg-secondary: #fcfeff */
-
 [data-theme="dark"] {
     --bg-primary: #1c1917;
     --bg-secondary: #292524;
@@ -241,6 +239,7 @@ input {
 
     padding: 0.5rem 0.8rem;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 input:focus {

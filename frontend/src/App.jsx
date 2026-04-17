@@ -8,10 +8,11 @@ import Footer from './persistent/Footer'
 import Home from './Fields/Home/Home'
 
 import Movie from './Fields/Movie/Movie'
+import Movies from './Fields/Movie/Movies'
 
 // SOME FYI:
 // - If setState is passed as is, it is render only specific. 
-//   - Else it has logic dependent on data and will be explicitly done here
+//   - Else it has logic dependent on data and will be explicitly stated here
 
 function App() {
 
@@ -38,9 +39,12 @@ function App() {
 
       <div className="sandwichedContent">
         <Sidebar isCompact={!isSidebarToggled} />
+        {/* ---- MAIN CONTENT ---- */}
         <Routes>
           <Route path='/' element={<Home />} />
+
           <Route path='/movie' element={<Movie />} />
+          <Route path='/movies' element={<Movies />} />
         </Routes>
       </div>
 
