@@ -2,21 +2,16 @@ import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import './Movies.css'
 
+import ControlBar from '../SharedComponents/ControlBar'
+
 function Movies() {
-  const [starred, setStarred] = useState(false)
-  console.log(starred)
   return (
     <div className="Movies">
+      <ControlBar
+        field={'movie'}
+        queryPlaceHolder={'Search for a movie'}
+      />
       <div className="moviesTop">
-        <div className="moviesOuterControls">
-          <NavLink className="moviesBackButton" to='/movie'>←</NavLink>
-          <input type="text" className="moviesQuery" />
-          <button
-            className="moviesStarred"
-            onClick={() => setStarred(!starred)}>
-            {starred ? '★' : '☆'}
-          </button>
-        </div>
       </div>
       <div className="movies-bottom">
 

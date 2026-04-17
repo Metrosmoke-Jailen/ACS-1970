@@ -33,13 +33,13 @@ body {
     -moz-osx-font-smoothing: grayscale;
 
     /* DESIGN TOKENS */
-    --radius: 12px;
+    --radius: 22px;
     --transition: 0.2s ease;
 
     --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
 
-    /* FOR COLOR THEME (DEFAULT: LIGHT) */
+    /* FOR COLOR THEME (LIGHT) */
     /* background | big */
     --bg-primary: #f6f3ef;
     /* controls | smaller */
@@ -228,6 +228,58 @@ button:disabled {
 
 /* END BUTTONS ******************************************** */
 
+/* START GENERAL SYMBOLS / ICON BUTTONS *********************************** */
+/* Include both control-icon and choosing of whatever tyoe you want
+in the class. Control-icon controls the size and layout, but has 
+no design to it */
+/* BASE SIZE AND LAYOUT */
+.control-icon {
+    --size: 2.2rem;
+    --icon-size: 1.2rem;
+
+    width: var(--size);
+    height: var(--size);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: var(--icon-size);
+    line-height: 1;
+
+    padding: 0;
+    border-radius: var(--radius);
+
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+/* GHOST */
+.control-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    box-shadow: none;
+}
+
+.control-ghost:hover {
+    background: var(--accent-secondary);
+    color: var(--text-main);
+}
+
+/* MINIMAL */
+.control-minimal {
+    background: transparent;
+    color: var(--text-secondary);
+    box-shadow: none;
+}
+
+.control-minimal:hover {
+    color: var(--accent-main);
+    transform: translateY(-1px);
+}
+
+/* END GENERAL SYMBOLS / ICON BUTTONS *********************************** */
+
 /* START INPUTS ****************************************** */
 input {
     font-family: inherit;
@@ -237,7 +289,7 @@ input {
     background: var(--bg-primary);
     color: var(--text-primary);
 
-    padding: 0.5rem 0.8rem;
+    padding: 0.4rem 0.8rem;
     transition: all 0.2s ease;
     cursor: pointer;
 }
