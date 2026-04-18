@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import './ControlBar.css'
 
+// FOR QUICK ACTIONS WITH NAVIGATION
 
 function ControlBar({ field, queryPlaceHolder }) {
   // SIMULATING STATES AND PROPS
