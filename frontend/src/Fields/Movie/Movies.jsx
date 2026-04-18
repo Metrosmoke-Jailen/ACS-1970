@@ -5,6 +5,13 @@ import './Movies.css'
 import ControlBar from '../SharedComponents/ControlBar'
 import MediaOverview from './MediaOverview'
 import MediaDetails from './MediaDetails'
+import MediaReviews from '../SharedComponents/MediaReviews'
+import NPSScore from '../SharedComponents/NPSScore'
+import UserNPSScore from '../SharedComponents/UserNPSScore'
+import ActionPanel from '../SharedComponents/ActionPanel'
+
+import { movieReviews } from '../../XampleData'
+
 
 
 function Movies() {
@@ -42,15 +49,16 @@ function Movies() {
         <div className="moviesLeft">
 
           <MediaDetails />
-          {/* <MediaReviews /> */}
+          <MediaReviews reviews={movieReviews} />
 
         </div>
 
         {/* RIGHT / NPS PANEL */}
         <div className="moviesRight">
 
-          {/* <NPSScore score={78} />
-          <UserNPSScore /> */}
+          <NPSScore score={78} />
+          <UserNPSScore />
+          <ActionPanel />
 
         </div>
 

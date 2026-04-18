@@ -1,0 +1,17 @@
+.mediaReviews {
+    padding: 1rem;
+    background: #111;
+    border-radius: 10px;
+}
+
+.reviewsTitle {
+    font-size: 1rem;
+    color: #aaa;
+    margin-bottom: 1rem;
+}
+
+.reviewsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
