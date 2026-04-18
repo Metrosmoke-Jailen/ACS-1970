@@ -12,6 +12,12 @@ function Movies() {
         queryPlaceHolder={'Search for a movie'}
       />
       <div className="moviesTop">
+        <div className="moviesTopRight">
+
+        </div>
+        <div className="moviesTopLeft">
+
+        </div>
       </div>
       <div className="movies-bottom">
 

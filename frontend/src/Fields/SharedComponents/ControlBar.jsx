@@ -31,6 +31,9 @@ function ControlBar({ field, queryPlaceHolder }) {
           onClick={() => setStarred(!starred)}>
           {starred ? '★' : '☆'}
         </button>
+        <button className="controlBarShare control-icon control-minimal">
+          ▷
+        </button>
       </div>
     </div >
   )
