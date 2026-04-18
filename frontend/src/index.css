@@ -59,6 +59,8 @@ body {
     /* subtle borders and tags | subtle */
     --accent-secondary: #ffd2b0;
     --accent-secondary-rgb: 255, 210, 176;
+
+    --accent-ghost: #f5e8d6;
 }
 
 [data-theme="dark"] {
@@ -77,6 +79,8 @@ body {
 
     --accent-secondary: #7c4a21;
     --accent-secondary-rgb: 124, 74, 33;
+
+    --accent-ghost: #222;
 }
 
 /* START FONT ********************************************** */

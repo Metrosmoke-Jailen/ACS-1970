@@ -4,7 +4,7 @@ import './ControlBar.css'
 
 // FOR QUICK ACTIONS WITH NAVIGATION
 
-function ControlBar({ field, queryPlaceHolder }) {
+function ControlBar({ field }) {
   // SIMULATING STATES AND PROPS
   const [starred, setStarred] = useState(false)
 
@@ -16,14 +16,6 @@ function ControlBar({ field, queryPlaceHolder }) {
           to={`/${field}`}>
           ←
         </NavLink>
-      </div>
-
-      <div className="controlBarCenter">
-        <input
-          type="text"
-          className="controlBarQuery"
-          placeholder={queryPlaceHolder}
-        />
       </div>
 
       <div className="controlBarRight">
