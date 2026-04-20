@@ -13,7 +13,7 @@ def create_app() -> Flask:
 
     app.register_blueprint(movies_bp)
 
-    @app.get("/health")
+    @app.get("/api/health")
     def health():
         return {"status": "ok"}
 

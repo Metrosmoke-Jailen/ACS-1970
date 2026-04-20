@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify
 from db import get_connection
 from models import MovieDistributionSchema, MovieSchema
 
-movies_bp = Blueprint("movies", __name__, url_prefix="/movies")
+movies_bp = Blueprint("movies", __name__, url_prefix="/api/movies")
 
 
 def save_movies(results: list[MovieSchema]) -> None:
