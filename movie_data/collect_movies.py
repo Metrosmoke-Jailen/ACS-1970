@@ -34,8 +34,8 @@ class MovieDistributionSchema(TypedDict):
 def calculate_nps(distribution: dict[int, int]) -> Optional[float]:
     if not distribution:
         return None
-    promoters = sum(distribution.get(k, 0) for k in [9, 10])
-    detractors = sum(distribution.get(k, 0) for k in [1, 2, 3, 4, 5, 6])
+    promoters = sum(distribution.get(k, 0) for k in [8, 9, 10])
+    detractors = sum(distribution.get(k, 0) for k in [1, 2, 3, 4])
     return round(promoters - detractors, 1)
 
 
