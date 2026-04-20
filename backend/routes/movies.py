@@ -1,75 +1,13 @@
-import sqlite3
-from pathlib import Path
-from typing import Optional, TypedDict
+from flask import Blueprint, jsonify
 
-DB_PATH = Path(__file__).with_name("movies.db")
+from db import get_connection
+from models import MovieDistributionSchema, MovieSchema
 
-
-class MovieSchema(TypedDict):
-    title: Optional[str]
-    slug: str
-    imdb_id: Optional[str]
-    distribution: dict[int, int]
-    nps_score: Optional[float]
-    description: Optional[str]
-    release_date: Optional[str]
-    poster_url: Optional[str]
-    tmdb_id: Optional[int]
-    error: Optional[str]
+movies_bp = Blueprint("movies", __name__, url_prefix="/movies")
 
 
-class MovieDistributionSchema(TypedDict):
-    movie_id: int
-    bucket: int
-    percentage: int
-
-
-def get_connection(db_path: Path = DB_PATH) -> sqlite3.Connection:
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys = ON")
-    return conn
-
-
-def setup_database(db_path: Path = DB_PATH) -> None:
-    with get_connection(db_path) as conn:
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS movies (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                slug TEXT NOT NULL UNIQUE,
-                title TEXT,
-                imdb_id TEXT,
-                tmdb_id INTEGER,
-                description TEXT,
-                release_date TEXT,
-                poster_url TEXT,
-                nps_score REAL,
-                error TEXT,
-                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-            )
-            """
-        )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS movie_distributions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                movie_id INTEGER NOT NULL,
-                bucket INTEGER NOT NULL CHECK(bucket BETWEEN 1 AND 10),
-                percentage INTEGER NOT NULL CHECK(percentage BETWEEN 0 AND 100),
-                FOREIGN KEY(movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-                UNIQUE(movie_id, bucket)
-            )
-            """
-        )
-        conn.commit()
-
-
-def save_to_database(results: list[MovieSchema], db_path: Path = DB_PATH) -> None:
-    setup_database(db_path)
-
-    with get_connection(db_path) as conn:
+def save_movies(results: list[MovieSchema]) -> None:
+    with get_connection() as conn:
         for result in results:
             conn.execute(
                 """
@@ -125,3 +63,32 @@ def save_to_database(results: list[MovieSchema], db_path: Path = DB_PATH) -> Non
             )
 
         conn.commit()
+
+
+@movies_bp.get("/")
+def get_movies():
+    with get_connection() as conn:
+        rows = conn.execute(
+            "SELECT id, slug, title, imdb_id, tmdb_id, description, release_date, poster_url, nps_score FROM movies WHERE error IS NULL"
+        ).fetchall()
+    return jsonify([dict(row) for row in rows])
+
+
+@movies_bp.get("/<slug>")
+def get_movie(slug: str):
+    with get_connection() as conn:
+        row = conn.execute(
+            "SELECT id, slug, title, imdb_id, tmdb_id, description, release_date, poster_url, nps_score FROM movies WHERE slug = ?",
+            (slug,),
+        ).fetchone()
+        if row is None:
+            return jsonify({"error": "not found"}), 404
+
+        distribution = conn.execute(
+            "SELECT bucket, percentage FROM movie_distributions WHERE movie_id = ? ORDER BY bucket",
+            (row["id"],),
+        ).fetchall()
+
+    movie = dict(row)
+    movie["distribution"] = {r["bucket"]: r["percentage"] for r in distribution}
+    return jsonify(movie)
