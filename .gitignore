@@ -13,4 +13,6 @@ CLAUDE.MD
 # Movie data output
 movie_data/movie_data.json
 movie_data/movie_data.csv
+movie_data/seed_data.json
+movie_data/seed_data.csv
 
