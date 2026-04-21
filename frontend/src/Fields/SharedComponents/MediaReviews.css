@@ -1,12 +1,12 @@
 .mediaReviews {
     padding: 1rem;
-    background: #111;
+    background: var(--bg-secondary);
     border-radius: 10px;
 }
 
 .reviewsTitle {
     font-size: 1rem;
-    color: #aaa;
+    color: var(--text-secondary);
     margin-bottom: 1rem;
 }
 

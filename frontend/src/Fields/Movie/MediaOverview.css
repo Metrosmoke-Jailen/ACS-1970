@@ -33,11 +33,11 @@
 }
 
 .mediaDescription {
-    color: #aaa;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
 .mediaCast {
     font-size: 0.9rem;
-    color: #ccc;
+    color: var(--text-secondary);
 }

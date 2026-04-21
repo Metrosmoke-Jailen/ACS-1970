@@ -6,8 +6,8 @@ function UserNPSScore() {
 
     const getLabel = (score) => {
         if (score === null) return ""
-        if (score >= 9) return "Promoter"
-        if (score >= 7) return "Passive"
+        if (score >= 4) return "Promoter"
+        if (score >= 3) return "Passive"
         return "Detractor"
     }
 
@@ -20,13 +20,13 @@ function UserNPSScore() {
 
             {/* SCORE GRID */}
             <div className="userNpsGrid">
-                {[...Array(11)].map((_, i) => (
+                {[...Array(5)].map((_, i) => (
                     <button
-                        key={i}
-                        className={`userNpsButton ${score === i ? "active" : ""}`}
-                        onClick={() => setScore(i)}
+                        key={i + 1}
+                        className={`userNpsButton ${score === i + 1 ? "active" : ""}`}
+                        onClick={() => setScore(i + 1)}
                     >
-                        {i}
+                        {i + 1}
                     </button>
                 ))}
             </div>

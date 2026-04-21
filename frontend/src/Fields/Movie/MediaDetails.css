@@ -1,13 +1,13 @@
 .MediaDetails {
     padding: 1rem;
     border-radius: 8px;
-    background: #111;
+    background: var(--bg-secondary);
 }
 
 .mediaDetailsTitle {
     font-size: 1rem;
     margin-bottom: 0.8rem;
-    color: #aaa;
+    color: var(--text-secondary);
 }
 
 .mediaDetailsGrid {
@@ -23,9 +23,9 @@
 }
 
 .label {
-    color: #888;
+    color: var(--text-secondary);
 }
 
 .value {
-    color: #fff;
+    color: var(--text-primary);
 }

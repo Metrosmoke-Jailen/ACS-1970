@@ -40,12 +40,14 @@ function App() {
       <div className="sandwichedContent">
         <Sidebar isCompact={!isSidebarToggled} />
         {/* ---- MAIN CONTENT ---- */}
-        <Routes>
-          <Route path='/' element={<Home />} />
+        <div className="mainContent">
+          <Routes>
+            <Route path='/' element={<Home />} />
 
-          <Route path='/movie' element={<Movie />} />
-          <Route path='/movies' element={<Movies />} />
-        </Routes>
+            <Route path='/movie' element={<Movie />} />
+            <Route path='/movies' element={<Movies />} />
+          </Routes>
+        </div>
       </div>
 
       <Footer />
