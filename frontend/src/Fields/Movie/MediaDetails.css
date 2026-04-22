@@ -1,0 +1,31 @@
+.MediaDetails {
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+}
+
+.mediaDetailsTitle {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.mediaDetailsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mediaDetailItem {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.label {
+    color: var(--text-secondary);
+}
+
+.value {
+    color: var(--text-primary);
+}

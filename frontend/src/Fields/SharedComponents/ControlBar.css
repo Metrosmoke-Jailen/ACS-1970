@@ -1,0 +1,20 @@
+.ControlBar {
+    width: 100%;
+    margin: 0.2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.controlBarLeft,
+.controlBarRight {
+    display: flex;
+    align-items: center;
+}
+
+.controlBarCenter {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,49 @@
+.Movies {
+    width: 100%;
+    padding: 1rem;
+}
+
+.moviesGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "top-left top-right"
+        "bottom-left bottom-right";
+    gap: 1rem;
+}
+
+.quadrant {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.topLeft {
+    grid-area: top-left;
+}
+
+.topRight {
+    grid-area: top-right;
+}
+
+.bottomLeft {
+    grid-area: bottom-left;
+}
+
+.bottomRight {
+    grid-area: bottom-right;
+}
+
+/* Responsive: stack on smaller screens */
+@media (max-width: 768px) {
+    .moviesGrid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            "top-left"
+            "top-right"
+            "bottom-left"
+            "bottom-right";
+    }
+}

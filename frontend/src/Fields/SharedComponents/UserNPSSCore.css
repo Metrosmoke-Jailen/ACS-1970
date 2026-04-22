@@ -1,0 +1,44 @@
+.UserNPS {
+    padding: 1rem;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.userNpsTitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* GRID */
+.userNpsGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.4rem;
+}
+
+.userNpsButton {
+    padding: 0.5rem;
+    background: var(--bg-primary);
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.userNpsButton:hover {
+    background: var(--accent-ghost);
+}
+
+.userNpsButton.active {
+    background: var(--accent-secondary);
+    font-weight: bold;
+}
+
+/* LABEL */
+.userNpsLabel {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}

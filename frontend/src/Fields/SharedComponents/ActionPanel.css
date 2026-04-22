@@ -1,0 +1,58 @@
+.ActionPanel {
+    padding: 1rem;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.actionTitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.actionBtn {
+    padding: 0.6rem;
+    border: none;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.actionBtn:hover {
+    background: var(--accent-ghost);
+}
+
+/* COMMENTS SECTION */
+.commentsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.commentTitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.commentTextarea {
+    padding: 0.5rem;
+    border: 1px solid var(--accent-ghost);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.commentTextarea::placeholder {
+    color: var(--text-secondary);
+}
+
+.commentTextarea:focus {
+    outline: none;
+    border-color: var(--accent-main);
+}
