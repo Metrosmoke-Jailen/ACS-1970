@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from db import setup_database
+from db.db import setup_database
 from routes.movies import save_movies
 
 SEED_FILE = Path(__file__).parent.parent / "movie_data" / "seed_data.json"

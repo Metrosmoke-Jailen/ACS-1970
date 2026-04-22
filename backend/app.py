@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 
-from db import setup_database
+from db.db import setup_database
 from routes.movies import movies_bp
 
 
