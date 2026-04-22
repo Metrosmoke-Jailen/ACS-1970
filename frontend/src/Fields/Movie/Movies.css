@@ -30,12 +30,16 @@
 /* Responsive: stack on smaller screens */
 @media (max-width: 768px) {
     .moviesGrid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .moviesGridTop,
+    .moviesGridBottom {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto;
-        grid-template-areas:
-            "top-left"
-            "top-right"
-            "bottom-left"
-            "bottom-right";
     }
 }
