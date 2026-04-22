@@ -12,7 +12,7 @@ def get_connection(db_path: Path = DB_PATH) -> sqlite3.Connection:
 
 
 _SQL_DIR = Path(__file__).parent
-_TABLES = ["movies", "movie_distributions"]
+_TABLES = ["movies", "movie_distributions", "reviews"]
 
 
 def setup_database(db_path: Path = DB_PATH) -> None:

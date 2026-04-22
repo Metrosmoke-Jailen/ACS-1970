@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 from db.db import setup_database
 from routes.movies import movies_bp
+from routes.reviews import reviews_bp
 
 
 def create_app() -> Flask:
@@ -12,6 +13,7 @@ def create_app() -> Flask:
     setup_database()
 
     app.register_blueprint(movies_bp)
+    app.register_blueprint(reviews_bp)
 
     @app.get("/api/health")
     def health():
