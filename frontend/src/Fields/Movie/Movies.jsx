@@ -28,6 +28,7 @@ function Movies() {
       .then(data => {
         setMovie(data)
         setLoading(false)
+        console.log(data)
       })
       .catch(err => {
         setError(err.message)
@@ -62,44 +63,52 @@ function Movies() {
   return (
     <div className="Movies">
 
-      {/* QUADRANT LAYOUT */}
       <div className="moviesGrid">
+        {/* TOP ROW GRID*/}
+        <div className="moviesGridTop">
 
-        {/* TOP-LEFT */}
-        <div className="quadrant topLeft">
-          <ControlBar
-            field={'movie'}
-            queryPlaceHolder={'Search for a movie'}
-          />
+          {/* TOP-LEFT */}
+          <div className="quadrant topLeft">
+            <ControlBar
+              field={'movie'}
+              queryPlaceHolder={'Search for a movie'}
+            />
 
-          <MediaOverview
-            title={movie.title}
-            description={movie.description}
-            poster={movie.poster_url}
-            cast={movie.cast}
-          />
+            <MediaOverview
+              title={movie.title}
+              description={movie.description}
+              poster={movie.poster_url}
+              cast={movie.cast}
+            />
+          </div>
+
+          {/* TOP-RIGHT */}
+          <div className="quadrant topRight">
+            <NPSScore score={movie.nps_score ?? 0} />
+            <UserNPSScore />
+            <ActionPanel />
+          </div>
         </div>
 
-        {/* TOP-RIGHT */}
-        <div className="quadrant topRight">
-          <NPSScore score={movie.nps_score ?? 0} />
-          <UserNPSScore />
-          <ActionPanel />
-        </div>
 
-        {/* BOTTOM-LEFT */}
-        <div className="quadrant bottomLeft">
-          <MediaDetails movie={movie} />
-        </div>
+        {/* BOTTOM ROW GRID */}
+        <div className="moviesGridBottom">
 
-        {/* BOTTOM-RIGHT */}
-        <div className="quadrant bottomRight">
-          <MediaReviews reviews={movieReviews} />
-        </div>
+          {/* BOTTOM-LEFT */}
+          <div className="quadrant bottomLeft">
+            <MediaDetails movie={movie} />
+          </div>
 
+          {/* BOTTOM-RIGHT */}
+          <div className="quadrant bottomRight">
+            <MediaReviews reviews={movieReviews} />
+          </div>
+        </div>
       </div>
-
     </div>
+
+
+
   )
 }
 
