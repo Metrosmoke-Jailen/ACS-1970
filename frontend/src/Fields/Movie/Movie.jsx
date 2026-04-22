@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './Movie.css'
 
 function Movie() {
@@ -34,7 +35,11 @@ function Movie() {
 
             <div className="movie-grid">
                 {movies.map(movie => (
-                    <div key={movie.slug} className="movie-card">
+                    <Link
+                        key={movie.slug}
+                        className="movie-card"
+                        to={`/movies/${movie.slug}`}
+                    >
                         {movie.poster_url
                             ? <img src={movie.poster_url} alt={movie.title} className="movie-poster" />
                             : <div className="movie-poster-placeholder" />
@@ -44,7 +49,7 @@ function Movie() {
                             <p className="muted">{movie.release_date?.slice(0, 4)}</p>
                             <p className="movie-nps">NPS {movie.nps_score ?? '—'}</p>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>
