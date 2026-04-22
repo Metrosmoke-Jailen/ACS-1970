@@ -18,3 +18,14 @@ class MovieDistributionSchema(TypedDict):
     movie_id: int
     bucket: int
     percentage: int
+
+
+class ReviewSchema(TypedDict):
+    id: int
+    user_id: int
+    target_type: str
+    target_id: int
+    rating: Optional[int]
+    body: Optional[str]
+    created_at: str
+    updated_at: str

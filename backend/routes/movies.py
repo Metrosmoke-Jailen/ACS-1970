@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 
-from db import get_connection
+from db.db import get_connection
 from models import MovieDistributionSchema, MovieSchema
 
 movies_bp = Blueprint("movies", __name__, url_prefix="/api/movies")
@@ -47,7 +47,9 @@ def save_movies(results: list[MovieSchema]) -> None:
                 continue
 
             movie_id = int(movie_row[0])
-            conn.execute("DELETE FROM movie_distributions WHERE movie_id = ?", (movie_id,))
+            conn.execute(
+                "DELETE FROM movie_distributions WHERE movie_id = ?", (movie_id,)
+            )
 
             distribution_rows: list[MovieDistributionSchema] = [
                 {"movie_id": movie_id, "bucket": int(bucket), "percentage": int(pct)}
