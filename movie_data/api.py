@@ -41,7 +41,7 @@ def get_movie_metadata(imdb_id: str) -> dict:
         "release_date": movie["release_date"],
         "poster_url": f"https://image.tmdb.org/t/p/w500{movie['poster_path']}",
         # specified tmdb_id at top
-        "tmdb_id": {tmdb_id}, 
+        "tmdb_id": tmdb_id,
         "genres": genres,
         "runtime": details_data.get("runtime"),
         "budget": details_data.get("budget"),

@@ -20,4 +20,9 @@ def setup_database(db_path: Path = DB_PATH) -> None:
         for table in _TABLES:
             sql = (_SQL_DIR / f"{table}.sql").read_text()
             conn.execute(sql)
+        for col, typedef in [("genres", "TEXT"), ("runtime", "INTEGER"), ("cast", "TEXT")]:
+            try:
+                conn.execute(f"ALTER TABLE movies ADD COLUMN {col} {typedef}")
+            except Exception:
+                pass
         conn.commit()

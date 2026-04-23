@@ -19,6 +19,18 @@
     gap: 0.4rem;
 }
 
+@media (max-width: 400px) {
+    .userNpsGrid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.25rem;
+    }
+
+    .userNpsButton {
+        padding: 0.35rem 0.25rem;
+        font-size: 0.8rem;
+    }
+}
+
 .userNpsButton {
     padding: 0.5rem;
     background: var(--bg-primary);

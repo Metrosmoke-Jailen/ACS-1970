@@ -5,6 +5,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+@media (max-width: 480px) {
+    .ControlBar {
+        margin: 0.1rem;
+        gap: 0.25rem;
+    }
 }
 
 .controlBarLeft,

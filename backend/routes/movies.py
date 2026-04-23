@@ -1,3 +1,5 @@
+import json
+
 from flask import Blueprint, jsonify
 
 from db.db import get_connection
@@ -9,13 +11,16 @@ movies_bp = Blueprint("movies", __name__, url_prefix="/api/movies")
 def save_movies(results: list[MovieSchema]) -> None:
     with get_connection() as conn:
         for result in results:
+            genres = result.get("genres")
+            cast = result.get("cast")
             conn.execute(
                 """
                 INSERT INTO movies (
                     slug, title, imdb_id, tmdb_id, description,
-                    release_date, poster_url, nps_score, error, updated_at
+                    release_date, poster_url, nps_score, genres, runtime, "cast",
+                    error, updated_at
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                 ON CONFLICT(slug) DO UPDATE SET
                     title = excluded.title,
                     imdb_id = excluded.imdb_id,
@@ -24,6 +29,9 @@ def save_movies(results: list[MovieSchema]) -> None:
                     release_date = excluded.release_date,
                     poster_url = excluded.poster_url,
                     nps_score = excluded.nps_score,
+                    genres = excluded.genres,
+                    runtime = excluded.runtime,
+                    "cast" = excluded."cast",
                     error = excluded.error,
                     updated_at = CURRENT_TIMESTAMP
                 """,
@@ -36,6 +44,9 @@ def save_movies(results: list[MovieSchema]) -> None:
                     result.get("release_date"),
                     result.get("poster_url"),
                     result.get("nps_score"),
+                    json.dumps(genres) if genres is not None else None,
+                    result.get("runtime"),
+                    json.dumps(cast) if cast is not None else None,
                     result.get("error"),
                 ),
             )
@@ -80,7 +91,7 @@ def get_movies():
 def get_movie(slug: str):
     with get_connection() as conn:
         row = conn.execute(
-            "SELECT id, slug, title, imdb_id, tmdb_id, description, release_date, poster_url, nps_score FROM movies WHERE slug = ?",
+            'SELECT id, slug, title, imdb_id, tmdb_id, description, release_date, poster_url, nps_score, genres, runtime, "cast" FROM movies WHERE slug = ?',
             (slug,),
         ).fetchone()
         if row is None:
@@ -93,4 +104,6 @@ def get_movie(slug: str):
 
     movie = dict(row)
     movie["distribution"] = {r["bucket"]: r["percentage"] for r in distribution}
+    movie["genres"] = json.loads(movie["genres"]) if movie.get("genres") else []
+    movie["cast"] = json.loads(movie["cast"]) if movie.get("cast") else []
     return jsonify(movie)

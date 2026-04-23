@@ -1,7 +1,7 @@
 .reviewCard {
     padding: 0.8rem;
     border-radius: 8px;
-    background: #1a1a1a;
+    background: var(--bg-primary);
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -14,15 +14,15 @@
 }
 
 .reviewScore {
-    color: #fff;
+    color: var(--text-main);
 }
 
 .reviewText {
-    color: #ccc;
+    color: var(--text-primary);
     font-size: 0.9rem;
 }
 
 .reviewUser {
     font-size: 0.75rem;
-    color: #777;
+    color: var(--text-secondary);
 }

@@ -5,8 +5,16 @@ const BUCKET_LABELS = {
   6: '★★★', 7: '★★★½', 8: '★★★★', 9: '★★★★½', 10: '★★★★★'
 }
 
-function MediaDetails({ releaseDate, imdbId, tmdbId, slug, distribution = {} }) {
+function formatRuntime(minutes) {
+  if (!minutes) return null
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+  return h > 0 ? `${h}h ${m}m` : `${m}m`
+}
+
+function MediaDetails({ releaseDate, imdbId, tmdbId, slug, distribution = {}, genres = [], runtime, cast = [] }) {
   const maxPct = Math.max(...Object.values(distribution), 1)
+  const runtimeStr = formatRuntime(runtime)
 
   return (
     <div className="MediaDetails">
@@ -17,6 +25,20 @@ function MediaDetails({ releaseDate, imdbId, tmdbId, slug, distribution = {} }) 
           <div className="mediaDetailItem">
             <span className="label">Released</span>
             <span className="value">{releaseDate}</span>
+          </div>
+        )}
+
+        {genres.length > 0 && (
+          <div className="mediaDetailItem">
+            <span className="label">Genre</span>
+            <span className="value">{genres.join(', ')}</span>
+          </div>
+        )}
+
+        {runtimeStr && (
+          <div className="mediaDetailItem">
+            <span className="label">Runtime</span>
+            <span className="value">{runtimeStr}</span>
           </div>
         )}
 
@@ -63,6 +85,22 @@ function MediaDetails({ releaseDate, imdbId, tmdbId, slug, distribution = {} }) 
         )}
 
       </div>
+
+      {cast.length > 0 && (
+        <div className="castSection">
+          <p className="castTitle">Cast</p>
+          <div className="castList">
+            {cast.slice(0, 6).map((person, i) => (
+              <div key={i} className="castItem">
+                <span className="castName">{person.name}</span>
+                {person.character && (
+                  <span className="castCharacter">{person.character}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {Object.keys(distribution).length > 0 && (
         <div className="ratingHistogram">

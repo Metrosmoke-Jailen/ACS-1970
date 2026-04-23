@@ -56,6 +56,9 @@ async def run_batch(slugs: list[str]) -> list[dict]:
             "release_date": metadata.get("release_date"),
             "poster_url": metadata.get("poster_url"),
             "tmdb_id": metadata.get("tmdb_id"),
+            "genres": metadata.get("genres", []),
+            "runtime": metadata.get("runtime"),
+            "cast": metadata.get("cast", []),
         })
 
     return results

@@ -6,14 +6,14 @@ header {
     background-color: var(--bg-secondary);
     border-bottom: 2px solid var(--accent-secondary);
 
-    padding: 0 0.6rem;
+    padding: 0 0.8rem;
     gap: 0.6rem;
 }
 
 .topbarLogo {
-    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-size: clamp(1.1rem, 2.2vw, 2rem);
     font-weight: 600;
-
+    flex-shrink: 0;
     color: var(--text-main);
 }
 
@@ -21,22 +21,24 @@ header {
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.6rem;
+    min-width: 0;
 }
 
 .topbarSearch {
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: center;
-
+    gap: 0.4rem;
     min-width: 0;
 }
 
 .topbarField {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+    font-size: 0.95rem;
     font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
 
     color: var(--text-main);
     text-decoration: none;
@@ -48,12 +50,13 @@ header {
 }
 
 .topbarQueryBar {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     max-width: 600px;
-    min-width: 120px;
 
-    padding: 0.6rem 0.8rem;
+    padding: 0.5rem 0.75rem;
     border-radius: var(--radius);
+    font-size: 0.9rem;
 
     border: 1px solid var(--accent-secondary);
     background: var(--bg-primary);
@@ -62,10 +65,26 @@ header {
 }
 
 .topbarAccount {
-    margin-left: auto;
     display: flex;
-    gap: 0.6rem;
+    gap: 0.5rem;
     align-items: center;
     white-space: nowrap;
     flex-shrink: 0;
+}
+
+/* On phones: hide the "Movies" field nav link (redundant with TabNav below),
+   shrink auth buttons to fit */
+@media (max-width: 540px) {
+    .topbarField {
+        display: none;
+    }
+
+    .topbarAccount .btn-secondary {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .topbarAccount p {
+        display: none;
+    }
 }

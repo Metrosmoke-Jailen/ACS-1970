@@ -112,6 +112,9 @@ function Movies() {
               tmdbId={movie.tmdb_id}
               slug={movie.slug}
               distribution={dist}
+              genres={movie.genres}
+              runtime={movie.runtime}
+              cast={movie.cast}
             />
           </div>
 

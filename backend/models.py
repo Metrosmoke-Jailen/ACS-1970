@@ -11,6 +11,9 @@ class MovieSchema(TypedDict):
     release_date: Optional[str]
     poster_url: Optional[str]
     tmdb_id: Optional[int]
+    genres: Optional[list[str]]
+    runtime: Optional[int]
+    cast: Optional[list[dict]]
     error: Optional[str]
 
 
