@@ -46,6 +46,13 @@
     resize: vertical;
     font-family: inherit;
     font-size: 0.9rem;
+    width: 100%;
+}
+
+@media (max-width: 540px) {
+    .commentTextarea {
+        min-height: 60px;
+    }
 }
 
 .commentTextarea::placeholder {

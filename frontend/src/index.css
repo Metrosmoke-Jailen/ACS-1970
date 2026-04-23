@@ -87,7 +87,7 @@ body {
 /* HEADINGS */
 h1 {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    font-size: clamp(2.6rem, 4vw, 3.6rem);
+    font-size: clamp(1.8rem, 4vw, 3.6rem);
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: -0.02em;
@@ -99,14 +99,13 @@ h1 {
 
 h2 {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+    font-size: clamp(1.3rem, 2.6vw, 2.6rem);
     font-weight: 540;
     line-height: 1.26;
     letter-spacing: -0.01em;
 
     color: var(--text-main);
     margin: 0.4rem 0;
-    /* FIXED */
 }
 
 /* BODY */

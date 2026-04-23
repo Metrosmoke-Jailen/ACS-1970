@@ -25,3 +25,9 @@
     gap: 1rem;
     padding: 1rem;
 }
+
+@media (max-width: 640px) {
+    .Sidebar {
+        display: none;
+    }
+}

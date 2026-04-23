@@ -27,16 +27,22 @@
     gap: 1rem;
 }
 
-/* Responsive: stack on smaller screens */
-@media (max-width: 768px) {
-    .moviesGrid {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+/* Tablet — shrink the sidebar column ratio */
+@media (max-width: 900px) {
+    .moviesGridTop {
+        grid-template-columns: 3fr 2fr;
     }
 }
 
-@media (max-width: 768px) {
+/* Stack everything into a single column */
+@media (max-width: 700px) {
+    .Movies {
+        padding: 0.75rem;
+    }
+
+    .moviesGrid {
+        gap: 0.75rem;
+    }
 
     .moviesGridTop,
     .moviesGridBottom {

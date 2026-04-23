@@ -1,18 +1,29 @@
 .TabNav {
     display: flex;
     gap: 0.4rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 
     padding: 0.4rem;
     background: var(--bg-secondary);
     border-radius: var(--radius);
 
     box-shadow: var(--shadow-sm);
+
+    /* hide scrollbar */
+    scrollbar-width: none;
+}
+
+.TabNav::-webkit-scrollbar {
+    display: none;
 }
 
 /* base tab */
 .tab {
     padding: 0.45rem 1rem;
     border-radius: calc(var(--radius) - 6px);
+    white-space: nowrap;
+    flex-shrink: 0;
 
     color: var(--text-secondary);
     font-weight: 500;
@@ -36,4 +47,11 @@
     color: white;
 
     box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 480px) {
+    .tab {
+        padding: 0.35rem 0.8rem;
+        font-size: 0.9rem;
+    }
 }

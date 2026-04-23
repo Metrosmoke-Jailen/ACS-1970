@@ -8,6 +8,9 @@ CREATE TABLE IF NOT EXISTS movies (
     release_date TEXT,
     poster_url TEXT,
     nps_score REAL,
+    genres TEXT,
+    runtime INTEGER,
+    "cast" TEXT,
     error TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
