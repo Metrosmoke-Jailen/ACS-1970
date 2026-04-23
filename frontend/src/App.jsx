@@ -19,7 +19,7 @@ import Movies from './Fields/Movie/Movies'
 //   - Else it has logic dependent on data and will be explicitly stated here
 
 function AppContent() {
-  const { isSidebarToggled } = useAppContext()
+  const { isAuthPage } = useAppContext()
 
   // ------- ACTUAL RENDER ------- //
   return (
@@ -27,8 +27,7 @@ function AppContent() {
       <Topbar />
 
       <div className="sandwichedContent">
-        {/* <Sidebar isCompact={!isSidebarToggled} /> */}
-        <TabNav />
+        {!isAuthPage && <TabNav />}
 
         {/* ---- MAIN CONTENT ---- */}
         <div className="mainContent">
@@ -44,7 +43,7 @@ function AppContent() {
         </div>
       </div>
 
-      <Footer />
+      {!isAuthPage && <Footer />}
     </div>
   )
 }

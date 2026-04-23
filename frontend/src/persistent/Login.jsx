@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './Auth.css'
 
 export default function Login() {
@@ -24,7 +25,7 @@ export default function Login() {
         </form>
 
         <p className="muted">
-          Don’t have an account? <a href="/signup">Sign up</a>
+          Don’t have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>
     </div>
