@@ -1,0 +1,40 @@
+.AuthPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2rem;
+}
+
+.AuthCard {
+  width: 100%;
+  max-width: 420px;
+
+  background: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow-md);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.AuthForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.FormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.FormGroup label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}

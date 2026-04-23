@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 
 import { AppProvider, useAppContext } from './AppContext'
+import Signup from './persistent/Signup'
+import Login from './persistent/Login'
 import Topbar from './persistent/Topbar'
 import Sidebar from './persistent/Sidebar'
 import Footer from './persistent/Footer'
@@ -31,7 +33,11 @@ function AppContent() {
         {/* ---- MAIN CONTENT ---- */}
         <div className="mainContent">
           <Routes>
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/login' element={<Login />} />
+
             <Route path='/' element={<Home />} />
+
             <Route path='/movie' element={<Movie />} />
             <Route path='/movies/:slug' element={<Movies />} />
           </Routes>
