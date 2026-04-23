@@ -1,25 +1,27 @@
 import './MediaOverview.css'
 
-function MediaOverview({ title, description, poster, cast = [] }) {
+function MediaOverview({ title, description, poster, releaseYear }) {
   return (
     <div className="MediaOverview">
 
       {/* LEFT: POSTER */}
       <div className="mediaPoster">
-        <img src={poster} alt={title} />
+        {poster
+          ? <img src={poster} alt={title} />
+          : <div className="mediaPosterPlaceholder" />
+        }
       </div>
 
       {/* RIGHT: TEXT */}
       <div className="mediaText">
-        <h1 className="mediaTitle">{title}</h1>
+        <div className="mediaTitleRow">
+          <h1 className="mediaTitle">{title}</h1>
+          {releaseYear && <span className="mediaYear">{releaseYear}</span>}
+        </div>
 
         <p className="mediaDescription">
-          {description}
+          {description || 'No description available.'}
         </p>
-
-        <div className="mediaCast">
-          <strong>Cast:</strong> {cast.join(', ')}
-        </div>
       </div>
 
     </div>

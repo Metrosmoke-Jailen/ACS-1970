@@ -60,6 +60,11 @@ function Movies() {
     )
   }
 
+  const dist = movie.distribution ?? {}
+  const promoters = (dist[9] ?? 0) + (dist[10] ?? 0)
+  const passives = (dist[7] ?? 0) + (dist[8] ?? 0)
+  const detractors = (dist[1] ?? 0) + (dist[2] ?? 0) + (dist[3] ?? 0) + (dist[4] ?? 0) + (dist[5] ?? 0) + (dist[6] ?? 0)
+
   return (
     <div className="Movies">
 
@@ -78,13 +83,18 @@ function Movies() {
               title={movie.title}
               description={movie.description}
               poster={movie.poster_url}
-              cast={movie.cast}
+              releaseYear={movie.release_date?.slice(0, 4)}
             />
           </div>
 
           {/* TOP-RIGHT */}
           <div className="quadrant topRight">
-            <NPSScore score={movie.nps_score ?? 0} />
+            <NPSScore
+              score={movie.nps_score ?? 0}
+              promoters={promoters}
+              passives={passives}
+              detractors={detractors}
+            />
             <UserNPSScore />
             <ActionPanel />
           </div>
@@ -96,7 +106,13 @@ function Movies() {
 
           {/* BOTTOM-LEFT */}
           <div className="quadrant bottomLeft">
-            <MediaDetails movie={movie} />
+            <MediaDetails
+              releaseDate={movie.release_date}
+              imdbId={movie.imdb_id}
+              tmdbId={movie.tmdb_id}
+              slug={movie.slug}
+              distribution={dist}
+            />
           </div>
 
           {/* BOTTOM-RIGHT */}

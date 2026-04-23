@@ -11,17 +11,6 @@ function Home() {
             </div>
 
             <Section
-                title="Starred Fields"
-                type="fields"
-                items={[
-                    { label: 'Movies', to: '/movie' },
-                    { label: 'Food', to: '/food' },
-                    { label: 'Art', to: '/art' },
-                    { label: 'Games', to: '/games' },
-                ]}
-            />
-
-            <Section
                 title="New NPS"
                 type="cards"
                 items={['Movie A', 'Movie B', 'Movie C', 'Movie D']}
