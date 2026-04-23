@@ -57,7 +57,7 @@ export const API_ENDPOINTS = {
         LOGIN: '/api/auth/login',
         SIGNUP: '/api/auth/signup',
         LOGOUT: '/api/auth/logout',
-        CHECK_AUTH: '/api/auth/check', // New endpoint to verify user on page load
+        CHECK_AUTH: '/api/auth/check',
     },
     MOVIES: {
         GET_ALL: '/api/movies',
