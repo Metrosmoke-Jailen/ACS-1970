@@ -1,0 +1,39 @@
+.TabNav {
+    display: flex;
+    gap: 0.4rem;
+
+    padding: 0.4rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow-sm);
+}
+
+/* base tab */
+.tab {
+    padding: 0.45rem 1rem;
+    border-radius: calc(var(--radius) - 6px);
+
+    color: var(--text-secondary);
+    font-weight: 500;
+
+    transition: var(--transition);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* hover */
+.tab:hover {
+    background: var(--accent-secondary);
+    color: var(--text-main);
+}
+
+/* active tab */
+.tab.active {
+    background: var(--accent-main);
+    color: white;
+
+    box-shadow: var(--shadow-sm);
+}

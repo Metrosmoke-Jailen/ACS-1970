@@ -1,18 +1,19 @@
 import { NavLink } from 'react-router-dom'
+import { useAppContext } from '../AppContext'
 import './Topbar.css'
 
-function Topbar({ sidebarToggle, handleSetFieldHome, query, handleSetQuery, context, username }) {
-  const { isSidebarToggled, setSidebarToggle } = sidebarToggle
+function Topbar() {
+  const { context, handleSetFieldHome, query, handleSetQuery, isSidebarToggled, setSidebarToggle, username } = useAppContext()
   const { field, queryPlaceholder } = context
 
   return (
     <header className='topbar'>
       {/* ------ SIDEBAR TOGGLE & LOGO ------ */}
-      <button
+      {/* <button
         className="topbarSidebarToggle btn-primary"
         onClick={() => setSidebarToggle(!isSidebarToggled)}>
         {isSidebarToggled ? '←' : '→'}
-      </button>
+      </button> */}
       <NavLink
         className='topbarLogo'
         to="/"
@@ -22,21 +23,25 @@ function Topbar({ sidebarToggle, handleSetFieldHome, query, handleSetQuery, cont
 
       <div className="topbarContent">
         {/* --- FIELD IN & QUERY BAR --- */}
-        <div className="topbarSearch">
-          {field ? (
-            <NavLink className="topbarField" to={`/${field.toLowerCase()}`}>
-              {field}
+        {field !== 'Home' && (
+          <div className="topbarSearch">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "topbarField active" : "topbarField"
+              }
+              to={`/${field?.toLowerCase().replace(/\s+/g, '-')}`}
+            >{field}
             </NavLink>
-          ) : null}
 
-          <input
-            className="topbarQueryBar"
-            type="text"
-            placeholder={queryPlaceholder}
-            value={query}
-            onChange={handleSetQuery}
-          />
-        </div>
+            <input
+              className="topbarQueryBar"
+              type="text"
+              placeholder={queryPlaceholder}
+              value={query}
+              onChange={handleSetQuery}
+            />
+          </div>
+        )}
 
         {/* --- ACCOUNT&LOGOUT OR LOGIN/SIGNUP --- */}
         {username ? (
