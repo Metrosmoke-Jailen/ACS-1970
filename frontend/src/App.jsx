@@ -2,9 +2,13 @@ import { useEffect, useReducer, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 
+import { AppProvider, useAppContext } from './AppContext'
+import Signup from './persistent/Signup'
+import Login from './persistent/Login'
 import Topbar from './persistent/Topbar'
 import Sidebar from './persistent/Sidebar'
 import Footer from './persistent/Footer'
+import TabNav from './persistent/TabNav'
 import Home from './Fields/Home/Home'
 
 import Movie from './Fields/Movie/Movie'
@@ -14,44 +18,41 @@ import Movies from './Fields/Movie/Movies'
 // - If setState is passed as is, it is render only specific. 
 //   - Else it has logic dependent on data and will be explicitly stated here
 
-function App() {
-
-  // ---- TOPBAR PROPS/STATE ---- //
-  const [isSidebarToggled, setSidebarToggle] = useState(true)
-  const [context, setContext] = useState({
-    field: null,
-    queryPlaceholder: 'Got something in mind?'
-  })
-  const [query, setQuery] = useState('')
-  const username = 'Test-User'
+function AppContent() {
+  const { isAuthPage } = useAppContext()
 
   // ------- ACTUAL RENDER ------- //
   return (
     <div className="App">
-      <Topbar
-        sidebarToggle={{ isSidebarToggled, setSidebarToggle }}
-        context={context}
-        handleSetFieldHome={() => setContext({ field: null, queryPlaceholder: 'Got something in mind?' })}
-        username={username}
-        query={query}
-        handleSetQuery={(e) => setQuery(e.target.value)}
-      />
+      <Topbar />
 
       <div className="sandwichedContent">
-        <Sidebar isCompact={!isSidebarToggled} />
+        {!isAuthPage && <TabNav />}
+
         {/* ---- MAIN CONTENT ---- */}
         <div className="mainContent">
           <Routes>
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/login' element={<Login />} />
+
             <Route path='/' element={<Home />} />
 
             <Route path='/movie' element={<Movie />} />
-            <Route path='/movies' element={<Movies />} />
+            <Route path='/movies/:slug' element={<Movies />} />
           </Routes>
         </div>
       </div>
 
-      <Footer />
+      {!isAuthPage && <Footer />}
     </div>
+  )
+}
+
+function App() {
+  return (
+    <AppProvider>
+      <AppContent />
+    </AppProvider>
   )
 }
 

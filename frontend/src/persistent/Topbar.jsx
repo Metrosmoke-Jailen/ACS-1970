@@ -1,18 +1,16 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import { useAppContext } from '../AppContext'
 import './Topbar.css'
 
-function Topbar({ sidebarToggle, handleSetFieldHome, query, handleSetQuery, context, username }) {
-  const { isSidebarToggled, setSidebarToggle } = sidebarToggle
+function Topbar() {
+  const { context, handleSetFieldHome, query, handleSetQuery, username, isAuthPage, isLoggedIn } = useAppContext()
   const { field, queryPlaceholder } = context
+  const navigate = useNavigate()
+  const location = useLocation()
 
   return (
     <header className='topbar'>
-      {/* ------ SIDEBAR TOGGLE & LOGO ------ */}
-      <button
-        className="topbarSidebarToggle btn-primary"
-        onClick={() => setSidebarToggle(!isSidebarToggled)}>
-        {isSidebarToggled ? '←' : '→'}
-      </button>
+      {/* ------ BRAND LOGO (Always shown) ------ */}
       <NavLink
         className='topbarLogo'
         to="/"
@@ -20,38 +18,55 @@ function Topbar({ sidebarToggle, handleSetFieldHome, query, handleSetQuery, cont
         NoCapybara
       </NavLink>
 
-      <div className="topbarContent">
-        {/* --- FIELD IN & QUERY BAR --- */}
-        <div className="topbarSearch">
-          {field ? (
-            <NavLink className="topbarField" to={`/${field.toLowerCase()}`}>
-              {field}
-            </NavLink>
-          ) : null}
-
-          <input
-            className="topbarQueryBar"
-            type="text"
-            placeholder={queryPlaceholder}
-            value={query}
-            onChange={handleSetQuery}
-          />
+      {/* ------ CONDITIONAL CONTENT ------ */}
+      {isAuthPage ? (
+        <div className="topbarContent">
+          <div className="topbarAccount">
+            {location.pathname === '/login' ? (
+              <button className="btn-secondary" onClick={() => navigate('/signup')}>Sign Up</button>
+            ) : (
+              <button className="btn-secondary" onClick={() => navigate('/login')}>Log In</button>
+            )}
+          </div>
         </div>
+      ) : (
 
-        {/* --- ACCOUNT&LOGOUT OR LOGIN/SIGNUP --- */}
-        {username ? (
-          <div className="topbarAccount">
-            <p>{username}</p>
-            <button className='btn-secondary'>Logout</button>
-          </div>
-        ) : (
-          <div className="topbarAccount">
-            <button>Log In</button>
-            <button>Signup</button>
-          </div>
-        )}
-      </div>
+        <div className="topbarContent">
+          {/* --- FIELD IN & QUERY BAR --- */}
+          {field !== 'Home' && (
+            <div className="topbarSearch">
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "topbarField active" : "topbarField"
+                }
+                to={`/${field?.toLowerCase().replace(/\s+/g, '-')}`}
+              >{field}
+              </NavLink>
 
+              <input
+                className="topbarQueryBar"
+                type="text"
+                placeholder={queryPlaceholder}
+                value={query}
+                onChange={handleSetQuery}
+              />
+            </div>
+          )}
+
+          {/* --- ACCOUNT & LOGOUT OR LOGIN/SIGNUP --- */}
+          {isLoggedIn && username ? (
+            <div className="topbarAccount">
+              <p>{username}</p>
+              <button className="btn-secondary" onClick={() => navigate('/login')}>Logout</button>
+            </div>
+          ) : (
+            <div className="topbarAccount">
+              <button className="btn-secondary" onClick={() => navigate('/login')}>Log In</button>
+              <button className="btn-secondary" onClick={() => navigate('/signup')}>Sign Up</button>
+            </div>
+          )}
+        </div>
+      )}
     </header>
   )
 }

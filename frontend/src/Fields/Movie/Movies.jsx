@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import './Movies.css'
 
 import ControlBar from '../SharedComponents/ControlBar'
@@ -12,56 +12,103 @@ import ActionPanel from '../SharedComponents/ActionPanel'
 
 import { movieReviews } from '../../XampleData'
 
-
-
 function Movies() {
+  const { slug } = useParams()
+
+  const [movie, setMovie] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetch(`/api/movies/${slug}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
+      .then(data => {
+        setMovie(data)
+        setLoading(false)
+        console.log(data)
+      })
+      .catch(err => {
+        setError(err.message)
+        setLoading(false)
+      })
+  }, [slug])
+
+  if (loading) {
+    return (
+      <div className="Movies">
+        <p className="muted">Loading...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="Movies">
+        <p className="muted">Error: {error}</p>
+      </div>
+    )
+  }
+
+  if (!movie) {
+    return (
+      <div className="Movies">
+        <p className="muted">Movie not found</p>
+      </div>
+    )
+  }
+
   return (
     <div className="Movies">
 
-      {/* QUADRANT LAYOUT */}
       <div className="moviesGrid">
+        {/* TOP ROW GRID*/}
+        <div className="moviesGridTop">
 
-        {/* TOP-LEFT: CONTROL BAR + MEDIA OVERVIEW */}
-        <div className="quadrant topLeft">
-          <ControlBar
-            field={'movie'}
-            queryPlaceHolder={'Search for a movie'}
-          />
-          <MediaOverview
-            title='Project Hail Mary'
-            description="Science teacher Ryland Grace wakes up on a 
-                spaceship with no recollection of who he is or how he got there. 
-                As his memory slowly returns, he soon discovers he must solve 
-                the riddle behind a mysterious substance that' s causing the sun 
-                to die out. As details of the mission unravel, he calls on his 
-                scientific training and sheer ingenuity -- but he may not have 
-                to do it alone."
-            poster='/Untitled.jpg'
-            cast={["Ryan Gosling", "Phil Lord", "Chris Miller",
-              "Amy Pascal", "Aditya Sood", "Andy Weir", "Rachel O'Connor"]}
-          />
+          {/* TOP-LEFT */}
+          <div className="quadrant topLeft">
+            <ControlBar
+              field={'movie'}
+              queryPlaceHolder={'Search for a movie'}
+            />
+
+            <MediaOverview
+              title={movie.title}
+              description={movie.description}
+              poster={movie.poster_url}
+              cast={movie.cast}
+            />
+          </div>
+
+          {/* TOP-RIGHT */}
+          <div className="quadrant topRight">
+            <NPSScore score={movie.nps_score ?? 0} />
+            <UserNPSScore />
+            <ActionPanel />
+          </div>
         </div>
 
-        {/* TOP-RIGHT: NPS SCORES + ACTIONS */}
-        <div className="quadrant topRight">
-          <NPSScore score={78} />
-          <UserNPSScore />
-          <ActionPanel />
-        </div>
 
-        {/* BOTTOM-LEFT: MEDIA DETAILS */}
-        <div className="quadrant bottomLeft">
-          <MediaDetails />
-        </div>
+        {/* BOTTOM ROW GRID */}
+        <div className="moviesGridBottom">
 
-        {/* BOTTOM-RIGHT: COMMENTS/REVIEWS */}
-        <div className="quadrant bottomRight">
-          <MediaReviews reviews={movieReviews} />
-        </div>
+          {/* BOTTOM-LEFT */}
+          <div className="quadrant bottomLeft">
+            <MediaDetails movie={movie} />
+          </div>
 
+          {/* BOTTOM-RIGHT */}
+          <div className="quadrant bottomRight">
+            <MediaReviews reviews={movieReviews} />
+          </div>
+        </div>
       </div>
-
     </div>
+
+
+
   )
 }
 
