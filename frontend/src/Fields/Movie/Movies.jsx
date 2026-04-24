@@ -8,9 +8,6 @@ import MediaDetails from './MediaDetails'
 import MediaReviews from '../SharedComponents/MediaReviews'
 import NPSScore from '../SharedComponents/NPSScore'
 import UserNPSScore from '../SharedComponents/UserNPSScore'
-import ActionPanel from '../SharedComponents/ActionPanel'
-
-import { movieReviews } from '../../XampleData'
 
 function Movies() {
   const { slug } = useParams()
@@ -18,6 +15,7 @@ function Movies() {
   const [movie, setMovie] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [reviews, setReviews] = useState([])
 
   useEffect(() => {
     fetch(`/api/movies/${slug}`)
@@ -35,6 +33,17 @@ function Movies() {
         setLoading(false)
       })
   }, [slug])
+
+  const fetchReviews = (movieId) => {
+    fetch(`/api/reviews/movie/${movieId}`)
+      .then(r => r.ok ? r.json() : [])
+      .then(setReviews)
+      .catch(() => {})
+  }
+
+  useEffect(() => {
+    if (movie?.id) fetchReviews(movie.id)
+  }, [movie?.id])
 
   if (loading) {
     return (
@@ -95,8 +104,7 @@ function Movies() {
               passives={passives}
               detractors={detractors}
             />
-            <UserNPSScore />
-            <ActionPanel />
+            <UserNPSScore movieId={movie.id} onReviewSubmitted={() => fetchReviews(movie.id)} />
           </div>
         </div>
 
@@ -120,7 +128,7 @@ function Movies() {
 
           {/* BOTTOM-RIGHT */}
           <div className="quadrant bottomRight">
-            <MediaReviews reviews={movieReviews} />
+            <MediaReviews reviews={reviews} />
           </div>
         </div>
       </div>

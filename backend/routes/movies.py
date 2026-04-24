@@ -1,109 +1,124 @@
 import json
 
 from flask import Blueprint, jsonify
+from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 
-from db.db import get_connection
-from models import MovieDistributionSchema, MovieSchema
+from db.db import Movie, MovieDistribution
+from extensions import db
+from models import MovieSchema
 
 movies_bp = Blueprint("movies", __name__, url_prefix="/api/movies")
 
 
 def save_movies(results: list[MovieSchema]) -> None:
-    with get_connection() as conn:
+    try:
         for result in results:
             genres = result.get("genres")
             cast = result.get("cast")
-            conn.execute(
-                """
-                INSERT INTO movies (
-                    slug, title, imdb_id, tmdb_id, description,
-                    release_date, poster_url, nps_score, genres, runtime, "cast",
-                    error, updated_at
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-                ON CONFLICT(slug) DO UPDATE SET
-                    title = excluded.title,
-                    imdb_id = excluded.imdb_id,
-                    tmdb_id = excluded.tmdb_id,
-                    description = excluded.description,
-                    release_date = excluded.release_date,
-                    poster_url = excluded.poster_url,
-                    nps_score = excluded.nps_score,
-                    genres = excluded.genres,
-                    runtime = excluded.runtime,
-                    "cast" = excluded."cast",
-                    error = excluded.error,
-                    updated_at = CURRENT_TIMESTAMP
-                """,
-                (
-                    result["slug"],
-                    result.get("title"),
-                    result.get("imdb_id"),
-                    result.get("tmdb_id"),
-                    result.get("description"),
-                    result.get("release_date"),
-                    result.get("poster_url"),
-                    result.get("nps_score"),
-                    json.dumps(genres) if genres is not None else None,
-                    result.get("runtime"),
-                    json.dumps(cast) if cast is not None else None,
-                    result.get("error"),
-                ),
-            )
 
-            movie_row = conn.execute(
-                "SELECT id FROM movies WHERE slug = ?", (result["slug"],)
-            ).fetchone()
-            if movie_row is None:
+            stmt = (
+                sqlite_insert(Movie)
+                .values(
+                    slug=result["slug"],
+                    title=result.get("title"),
+                    imdb_id=result.get("imdb_id"),
+                    tmdb_id=result.get("tmdb_id"),
+                    description=result.get("description"),
+                    release_date=result.get("release_date"),
+                    poster_url=result.get("poster_url"),
+                    nps_score=result.get("nps_score"),
+                    genres=json.dumps(genres) if genres is not None else None,
+                    runtime=result.get("runtime"),
+                    cast=json.dumps(cast) if cast is not None else None,
+                    error=result.get("error"),
+                )
+                .on_conflict_do_update(
+                    index_elements=["slug"],
+                    set_=dict(
+                        title=result.get("title"),
+                        imdb_id=result.get("imdb_id"),
+                        tmdb_id=result.get("tmdb_id"),
+                        description=result.get("description"),
+                        release_date=result.get("release_date"),
+                        poster_url=result.get("poster_url"),
+                        nps_score=result.get("nps_score"),
+                        genres=json.dumps(genres) if genres is not None else None,
+                        runtime=result.get("runtime"),
+                        cast=json.dumps(cast) if cast is not None else None,
+                        error=result.get("error"),
+                    ),
+                )
+            )
+            db.session.execute(stmt)
+            db.session.flush()
+
+            movie = db.session.query(Movie).filter_by(slug=result["slug"]).first()
+            if movie is None:
                 continue
 
-            movie_id = int(movie_row[0])
-            conn.execute(
-                "DELETE FROM movie_distributions WHERE movie_id = ?", (movie_id,)
-            )
+            db.session.query(MovieDistribution).filter_by(movie_id=movie.id).delete()
 
-            distribution_rows: list[MovieDistributionSchema] = [
-                {"movie_id": movie_id, "bucket": int(bucket), "percentage": int(pct)}
-                for bucket, pct in sorted(result.get("distribution", {}).items())
-            ]
+            for bucket, pct in sorted(result.get("distribution", {}).items()):
+                db.session.add(
+                    MovieDistribution(
+                        movie_id=movie.id,
+                        bucket=int(bucket),
+                        percentage=int(pct),
+                    )
+                )
 
-            conn.executemany(
-                """
-                INSERT INTO movie_distributions (movie_id, bucket, percentage)
-                VALUES (:movie_id, :bucket, :percentage)
-                """,
-                distribution_rows,
-            )
-
-        conn.commit()
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        raise
 
 
 @movies_bp.get("/")
 def get_movies():
-    with get_connection() as conn:
-        rows = conn.execute(
-            "SELECT id, slug, title, imdb_id, tmdb_id, description, release_date, poster_url, nps_score FROM movies WHERE error IS NULL"
-        ).fetchall()
-    return jsonify([dict(row) for row in rows])
+    movies = db.session.query(Movie).filter(Movie.error.is_(None)).all()
+    return jsonify(
+        [
+            {
+                "id": m.id,
+                "slug": m.slug,
+                "title": m.title,
+                "imdb_id": m.imdb_id,
+                "tmdb_id": m.tmdb_id,
+                "description": m.description,
+                "release_date": m.release_date,
+                "poster_url": m.poster_url,
+                "nps_score": m.nps_score,
+            }
+            for m in movies
+        ]
+    )
 
 
 @movies_bp.get("/<slug>")
 def get_movie(slug: str):
-    with get_connection() as conn:
-        row = conn.execute(
-            'SELECT id, slug, title, imdb_id, tmdb_id, description, release_date, poster_url, nps_score, genres, runtime, "cast" FROM movies WHERE slug = ?',
-            (slug,),
-        ).fetchone()
-        if row is None:
-            return jsonify({"error": "not found"}), 404
+    movie = db.session.query(Movie).filter_by(slug=slug).first()
+    if movie is None:
+        return jsonify({"error": "not found"}), 404
 
-        distribution = conn.execute(
-            "SELECT bucket, percentage FROM movie_distributions WHERE movie_id = ? ORDER BY bucket",
-            (row["id"],),
-        ).fetchall()
+    distribution = {
+        d.bucket: d.percentage
+        for d in sorted(movie.distributions, key=lambda d: d.bucket)
+    }
 
-    movie = dict(row)
-    movie["distribution"] = {r["bucket"]: r["percentage"] for r in distribution}
-    movie["genres"] = json.loads(movie["genres"]) if movie.get("genres") else []
-    movie["cast"] = json.loads(movie["cast"]) if movie.get("cast") else []
-    return jsonify(movie)
+    return jsonify(
+        {
+            "id": movie.id,
+            "slug": movie.slug,
+            "title": movie.title,
+            "imdb_id": movie.imdb_id,
+            "tmdb_id": movie.tmdb_id,
+            "description": movie.description,
+            "release_date": movie.release_date,
+            "poster_url": movie.poster_url,
+            "nps_score": movie.nps_score,
+            "genres": json.loads(movie.genres) if movie.genres else [],
+            "cast": json.loads(movie.cast) if movie.cast else [],
+            "runtime": movie.runtime,
+            "distribution": distribution,
+        }
+    )

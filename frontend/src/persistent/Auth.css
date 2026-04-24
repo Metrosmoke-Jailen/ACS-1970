@@ -38,3 +38,9 @@
   font-size: 0.85rem;
   color: var(--text-secondary);
 }
+
+.AuthError {
+  font-size: 0.85rem;
+  color: var(--color-error, #e05252);
+  margin: 0;
+}

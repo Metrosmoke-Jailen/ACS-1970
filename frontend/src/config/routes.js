@@ -52,7 +52,7 @@ export const getPageTitle = (pathname) => {
  * These should be environment variables in production
  */
 export const API_ENDPOINTS = {
-    BASE_URL: process.env.VITE_API_URL || 'http://localhost:5000',
+    BASE_URL: import.meta.env.VITE_API_URL || '',
     AUTH: {
         LOGIN: '/api/auth/login',
         SIGNUP: '/api/auth/signup',

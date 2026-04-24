@@ -1,14 +1,17 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { API_ENDPOINTS } from './config/routes'
 
 const AppContext = createContext()
 
 export const useAppContext = () => useContext(AppContext)
 
 const AUTH_PAGES = ['/login', '/signup']
+const BASE = API_ENDPOINTS.BASE_URL
 
 export const AppProvider = ({ children }) => {
     const location = useLocation()
+    const navigate = useNavigate()
 
     const [context, setContext] = useState({
         field: null,
@@ -18,25 +21,52 @@ export const AppProvider = ({ children }) => {
     const [isSidebarToggled, setSidebarToggle] = useState(true)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [username, setUsername] = useState(null)
+    const [userId, setUserId] = useState(null)
 
-    // Check current page is auth page
     const isAuthPage = AUTH_PAGES.some(page => location.pathname === page)
+
+    // Restore session on first load
+    useEffect(() => {
+        fetch(`${BASE}/api/auth/check`, { credentials: 'include' })
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+                if (data?.username) {
+                    setIsLoggedIn(true)
+                    setUsername(data.username)
+                    setUserId(data.id)
+                }
+            })
+            .catch(() => {})
+    }, [])
 
     useEffect(() => {
         if (location.pathname.startsWith('/movie')) {
             setContext({ field: 'Movies', queryPlaceholder: 'Search movies...' })
         } else {
-            // For when looking up a specific thing in the future but not now
             setContext({ field: 'Home', queryPlaceholder: 'Got something in mind?' })
         }
     }, [location.pathname])
 
-    // Is not rendered on home page currently
     const handleSetFieldHome = () => {
         setContext({ field: null, queryPlaceholder: 'Got something in mind?' })
     }
 
     const handleSetQuery = (e) => setQuery(e.target.value)
+
+    const login = (userData) => {
+        setIsLoggedIn(true)
+        setUsername(userData.username)
+        setUserId(userData.id)
+        navigate('/')
+    }
+
+    const logout = async () => {
+        await fetch(`${BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
+        setIsLoggedIn(false)
+        setUsername(null)
+        setUserId(null)
+        navigate('/login')
+    }
 
     const value = {
         context,
@@ -51,7 +81,10 @@ export const AppProvider = ({ children }) => {
         setIsLoggedIn,
         username,
         setUsername,
-        isAuthPage
+        userId,
+        isAuthPage,
+        login,
+        logout,
     }
 
     return (

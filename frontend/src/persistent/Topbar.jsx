@@ -3,7 +3,7 @@ import { useAppContext } from '../AppContext'
 import './Topbar.css'
 
 function Topbar() {
-  const { context, handleSetFieldHome, query, handleSetQuery, username, isAuthPage, isLoggedIn } = useAppContext()
+  const { context, handleSetFieldHome, query, handleSetQuery, username, isAuthPage, isLoggedIn, logout } = useAppContext()
   const { field, queryPlaceholder } = context
   const navigate = useNavigate()
   const location = useLocation()
@@ -57,7 +57,7 @@ function Topbar() {
           {isLoggedIn && username ? (
             <div className="topbarAccount">
               <p>{username}</p>
-              <button className="btn-secondary" onClick={() => navigate('/login')}>Logout</button>
+              <button className="btn-secondary" onClick={logout}>Logout</button>
             </div>
           ) : (
             <div className="topbarAccount">
