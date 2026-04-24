@@ -284,6 +284,22 @@ no design to it */
 /* END GENERAL SYMBOLS / ICON BUTTONS *********************************** */
 
 /* START INPUTS ****************************************** */
+textarea {
+    font-family: inherit;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-secondary);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    transition: all 0.2s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(var(--accent-main-rgb), 0.15);
+}
+
 input {
     font-family: inherit;
     border-radius: var(--radius);

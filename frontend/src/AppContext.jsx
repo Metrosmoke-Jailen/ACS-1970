@@ -21,6 +21,7 @@ export const AppProvider = ({ children }) => {
     const [isSidebarToggled, setSidebarToggle] = useState(true)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [username, setUsername] = useState(null)
+    const [userId, setUserId] = useState(null)
 
     const isAuthPage = AUTH_PAGES.some(page => location.pathname === page)
 
@@ -32,6 +33,7 @@ export const AppProvider = ({ children }) => {
                 if (data?.username) {
                     setIsLoggedIn(true)
                     setUsername(data.username)
+                    setUserId(data.id)
                 }
             })
             .catch(() => {})
@@ -54,6 +56,7 @@ export const AppProvider = ({ children }) => {
     const login = (userData) => {
         setIsLoggedIn(true)
         setUsername(userData.username)
+        setUserId(userData.id)
         navigate('/')
     }
 
@@ -61,6 +64,7 @@ export const AppProvider = ({ children }) => {
         await fetch(`${BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
         setIsLoggedIn(false)
         setUsername(null)
+        setUserId(null)
         navigate('/login')
     }
 
@@ -77,6 +81,7 @@ export const AppProvider = ({ children }) => {
         setIsLoggedIn,
         username,
         setUsername,
+        userId,
         isAuthPage,
         login,
         logout,

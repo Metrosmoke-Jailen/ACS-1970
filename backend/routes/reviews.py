@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.exc import IntegrityError
 
-from db.db import Review
+from db.db import Review, User
 from extensions import db
 
 reviews_bp = Blueprint("reviews", __name__, url_prefix="/api/reviews")
@@ -51,13 +51,14 @@ def create_review():
 
 @reviews_bp.get("/<target_type>/<int:target_id>")
 def get_reviews(target_type: str, target_id: int):
-    reviews = (
-        db.session.query(Review)
-        .filter_by(target_type=target_type, target_id=target_id)
+    rows = (
+        db.session.query(Review, User.username)
+        .join(User, Review.user_id == User.id)
+        .filter(Review.target_type == target_type, Review.target_id == target_id)
         .order_by(Review.created_at.desc())
         .all()
     )
-    return jsonify([_review_dict(r) for r in reviews])
+    return jsonify([{**_review_dict(r), "username": username} for r, username in rows])
 
 
 @reviews_bp.patch("/<int:review_id>")

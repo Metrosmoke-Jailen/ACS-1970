@@ -53,4 +53,54 @@
 .userNpsLabel {
     font-size: 0.9rem;
     color: var(--text-secondary);
+    min-height: 1.2em;
+}
+
+.userNpsComment {
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--accent-ghost);
+    border-radius: 6px;
+    color: var(--text-primary);
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.userNpsComment::placeholder {
+    color: var(--text-secondary);
+}
+
+.userNpsComment:focus {
+    outline: none;
+    border-color: var(--accent-main);
+}
+
+.userNpsSubmit {
+    width: 100%;
+}
+
+.userNpsSubmit:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.userNpsLoginPrompt {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.userNpsSuccess {
+    font-size: 0.9rem;
+    color: var(--accent-secondary);
+}
+
+.userNpsError {
+    font-size: 0.85rem;
+    color: var(--color-error, #e05252);
+    margin: 0;
 }

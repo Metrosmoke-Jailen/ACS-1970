@@ -1,10 +1,10 @@
 import './ReviewCard.css'
 
-function ReviewCard({ score, text, user }) {
+function ReviewCard({ rating, body, username }) {
 
-  const getLabel = (score) => {
-    if (score >= 9) return "Promoter"
-    if (score >= 7) return "Passive"
+  const getLabel = (rating) => {
+    if (rating >= 9) return "Promoter"
+    if (rating >= 7) return "Passive"
     return "Detractor"
   }
 
@@ -13,20 +13,22 @@ function ReviewCard({ score, text, user }) {
 
       <div className="reviewTop">
         <span className="reviewScore">
-          Score: {score}
+          Score: {rating}
         </span>
 
-        <span className={`reviewLabel ${getLabel(score).toLowerCase()}`}>
-          {getLabel(score)}
+        <span className={`reviewLabel ${getLabel(rating).toLowerCase()}`}>
+          {getLabel(rating)}
         </span>
       </div>
 
-      <div className="reviewText">
-        {text}
-      </div>
+      {body && (
+        <div className="reviewText">
+          {body}
+        </div>
+      )}
 
       <div className="reviewUser">
-        — {user}
+        — {username}
       </div>
 
     </div>

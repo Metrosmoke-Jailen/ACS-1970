@@ -11,12 +11,15 @@ function MediaReviews({ reviews = [] }) {
 
       <div className="reviewsList">
 
+        {reviews.length === 0 && (
+          <p className="muted">No reviews yet.</p>
+        )}
         {reviews.map((r, i) => (
           <ReviewCard
-            key={i}
-            score={r.score}
-            text={r.text}
-            user={r.user}
+            key={r.id ?? i}
+            rating={r.rating}
+            body={r.body}
+            username={r.username}
           />
         ))}
 
