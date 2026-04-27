@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAppContext } from '../AppContext'
+import { useAppContext } from '../../AppContext'
 import './Movie.css'
 
 function Movie() {
@@ -26,10 +26,9 @@ function Movie() {
             })
     }, [])
 
-    // Filter movies based on search query
-    const filteredMovies = movies.filter(movie =>
-        movie.title.toLowerCase().includes(query.toLowerCase())
-    )
+    const filteredMovies = movies
+        .filter(movie => movie.title.toLowerCase().includes(query.toLowerCase()))
+        .sort((a, b) => (b.nps_score ?? -Infinity) - (a.nps_score ?? -Infinity))
 
     if (loading) {
         return (

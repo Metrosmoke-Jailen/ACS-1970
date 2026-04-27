@@ -35,14 +35,6 @@ function Topbar() {
           {/* --- FIELD IN & QUERY BAR --- */}
           {field !== 'Home' && (
             <div className="topbarSearch">
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "topbarField active" : "topbarField"
-                }
-                to={`/${field?.toLowerCase().replace(/\s+/g, '-')}`}
-              >{field}
-              </NavLink>
-
               <input
                 className="topbarQueryBar"
                 type="text"
