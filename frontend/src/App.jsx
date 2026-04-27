@@ -13,6 +13,7 @@ import Home from './Fields/Home/Home'
 
 import Movie from './Fields/Movie/Movie'
 import Movies from './Fields/Movie/Movies'
+import Profile from './Fields/Profile/Profile'
 
 // SOME FYI:
 // - If setState is passed as is, it is render only specific. 
@@ -39,6 +40,7 @@ function AppContent() {
 
             <Route path='/movie' element={<Movie />} />
             <Route path='/movies/:slug' element={<Movies />} />
+            <Route path='/profile' element={<Profile />} />
           </Routes>
         </div>
       </div>

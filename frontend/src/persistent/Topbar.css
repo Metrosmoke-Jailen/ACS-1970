@@ -72,6 +72,18 @@ header {
     flex-shrink: 0;
 }
 
+.topbarUsername {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.topbarUsername:hover {
+    color: var(--accent-primary);
+}
+
 /* On phones: hide the "Movies" field nav link (redundant with TabNav below),
    shrink auth buttons to fit */
 @media (max-width: 540px) {
@@ -84,7 +96,7 @@ header {
         font-size: 0.8rem;
     }
 
-    .topbarAccount p {
+    .topbarUsername {
         display: none;
     }
 }

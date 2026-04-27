@@ -48,7 +48,7 @@ function Topbar() {
           {/* --- ACCOUNT & LOGOUT OR LOGIN/SIGNUP --- */}
           {isLoggedIn && username ? (
             <div className="topbarAccount">
-              <p>{username}</p>
+              <NavLink to="/profile" className="topbarUsername">{username}</NavLink>
               <button className="btn-secondary" onClick={logout}>Logout</button>
             </div>
           ) : (

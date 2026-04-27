@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.exc import IntegrityError
 
-from db.db import Review, User
+from db.db import Movie, Review, User
 from extensions import db
 
 reviews_bp = Blueprint("reviews", __name__, url_prefix="/api/reviews")
@@ -80,6 +80,21 @@ def update_review(review_id: int):
     except Exception:
         db.session.rollback()
         raise
+
+
+@reviews_bp.get("/user/<int:user_id>")
+def get_user_reviews(user_id: int):
+    rows = (
+        db.session.query(Review, Movie.title, Movie.slug)
+        .join(Movie, (Review.target_type == "movie") & (Review.target_id == Movie.id))
+        .filter(Review.user_id == user_id)
+        .order_by(Review.created_at.desc())
+        .all()
+    )
+    return jsonify([
+        {**_review_dict(r), "movie_title": title, "movie_slug": slug}
+        for r, title, slug in rows
+    ])
 
 
 @reviews_bp.delete("/<int:review_id>")

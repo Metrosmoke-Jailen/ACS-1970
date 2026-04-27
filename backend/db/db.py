@@ -69,6 +69,7 @@ class User(UserMixin, db.Model):
     password = Column(String(255))
 
     reviews = db.relationship("Review", back_populates="user", cascade="all, delete-orphan")
+    favorites = db.relationship("Favorite", back_populates="user", cascade="all, delete-orphan")
 
 
 class Review(db.Model):
@@ -94,6 +95,20 @@ class Review(db.Model):
     )
 
     user = db.relationship("User", back_populates="reviews")
+
+
+class Favorite(db.Model):
+    __tablename__ = "favorites"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    movie_id = Column(Integer, ForeignKey("movies.id", ondelete="CASCADE"), nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    __table_args__ = (UniqueConstraint("user_id", "movie_id", name="uq_user_favorite"),)
+
+    user = db.relationship("User", back_populates="favorites")
+    movie = db.relationship("Movie")
 
 
 def setup_database() -> None:
