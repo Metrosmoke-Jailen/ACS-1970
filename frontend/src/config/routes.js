@@ -14,7 +14,7 @@
 export const AUTH_PAGES = ['/login', '/signup']
 
 // Main application pages (visible after login)
-export const MAIN_PAGES = ['/', '/movies', '/movie']
+export const MAIN_PAGES = ['/', '/movies', '/movie', '/profile']
 
 // Routes configuration
 export const ROUTES = {
@@ -23,6 +23,7 @@ export const ROUTES = {
     SIGNUP: '/signup',
     MOVIES: '/movies/:slug',
     MOVIE: '/movie',
+    PROFILE: '/profile',
 }
 
 /**

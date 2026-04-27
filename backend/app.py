@@ -7,6 +7,7 @@ from sqlalchemy import event
 from config import DATABASE_URL
 from extensions import bcrypt, db, login_manager
 from routes.auth import user_bp
+from routes.favorites import favorites_bp
 from routes.movies import movies_bp
 from routes.reviews import reviews_bp
 
@@ -35,6 +36,7 @@ def create_app() -> Flask:
     app.register_blueprint(user_bp)
     app.register_blueprint(movies_bp)
     app.register_blueprint(reviews_bp)
+    app.register_blueprint(favorites_bp)
 
     @app.get("/api/health")
     def health():

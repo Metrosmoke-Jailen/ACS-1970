@@ -85,7 +85,7 @@ function Movies() {
           <div className="quadrant topLeft">
             <ControlBar
               field={'movie'}
-              queryPlaceHolder={'Search for a movie'}
+              movieId={movie.id}
             />
 
             <MediaOverview

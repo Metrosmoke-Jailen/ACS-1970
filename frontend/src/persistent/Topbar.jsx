@@ -35,14 +35,6 @@ function Topbar() {
           {/* --- FIELD IN & QUERY BAR --- */}
           {field !== 'Home' && (
             <div className="topbarSearch">
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "topbarField active" : "topbarField"
-                }
-                to={`/${field?.toLowerCase().replace(/\s+/g, '-')}`}
-              >{field}
-              </NavLink>
-
               <input
                 className="topbarQueryBar"
                 type="text"
@@ -56,7 +48,7 @@ function Topbar() {
           {/* --- ACCOUNT & LOGOUT OR LOGIN/SIGNUP --- */}
           {isLoggedIn && username ? (
             <div className="topbarAccount">
-              <p>{username}</p>
+              <NavLink to="/profile" className="topbarUsername">{username}</NavLink>
               <button className="btn-secondary" onClick={logout}>Logout</button>
             </div>
           ) : (

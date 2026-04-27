@@ -1,12 +1,36 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useAppContext } from '../../AppContext'
 import './ControlBar.css'
 
-// FOR QUICK ACTIONS WITH NAVIGATION
-
-function ControlBar({ field }) {
-  // SIMULATING STATES AND PROPS
+function ControlBar({ field, movieId }) {
+  const { isLoggedIn } = useAppContext()
+  const navigate = useNavigate()
   const [starred, setStarred] = useState(false)
+
+  useEffect(() => {
+    if (!movieId || !isLoggedIn) return
+    fetch(`/api/favorites/${movieId}`, { credentials: 'include' })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setStarred(data.favorited) })
+      .catch(() => {})
+  }, [movieId, isLoggedIn])
+
+  const handleStar = () => {
+    if (!isLoggedIn) {
+      navigate('/login')
+      return
+    }
+    fetch('/api/favorites/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movie_id: movieId }),
+    })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setStarred(data.favorited) })
+      .catch(() => {})
+  }
 
   return (
     <div className="ControlBar">
@@ -21,14 +45,14 @@ function ControlBar({ field }) {
       <div className="controlBarRight">
         <button
           className="controlBarStarred control-icon control-minimal"
-          onClick={() => setStarred(!starred)}>
+          onClick={handleStar}>
           {starred ? '★' : '☆'}
         </button>
         <button className="controlBarShare control-icon control-minimal">
           ▷
         </button>
       </div>
-    </div >
+    </div>
   )
 }
 
