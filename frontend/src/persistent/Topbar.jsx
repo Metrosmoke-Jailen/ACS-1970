@@ -15,7 +15,7 @@ function Topbar() {
         className='topbarLogo'
         to="/"
         onClick={handleSetFieldHome}>
-        NoCapybara
+        NPS for Everything
       </NavLink>
 
       {/* ------ CONDITIONAL CONTENT ------ */}
