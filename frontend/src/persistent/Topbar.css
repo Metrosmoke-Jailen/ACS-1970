@@ -11,10 +11,11 @@ header {
 }
 
 .topbarLogo {
-    font-size: clamp(1.1rem, 2.2vw, 2rem);
-    font-weight: 600;
+    font-size: clamp(0.95rem, 1.8vw, 1.3rem);
+    font-weight: 700;
     flex-shrink: 0;
     color: var(--text-main);
+    letter-spacing: -0.01em;
 }
 
 .topbarContent {
