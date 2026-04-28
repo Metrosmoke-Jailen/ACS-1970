@@ -71,6 +71,7 @@ header {
     align-items: center;
     white-space: nowrap;
     flex-shrink: 0;
+    margin-left: auto;
 }
 
 .topbarUsername {
