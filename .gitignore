@@ -17,3 +17,5 @@ movie_data/seed_data.json
 movie_data/seed_data.csv
 
 .tasklist
+
+./node_modules
