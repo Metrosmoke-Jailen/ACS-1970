@@ -252,6 +252,34 @@
     color: var(--text-secondary);
 }
 
+/* ── Top Rated poster grid ─────────────────────────── */
+
+.movie-poster-wrap {
+    position: relative;
+}
+
+.rank-badge {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    background: var(--accent-main);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.25rem 0.45rem;
+    border-radius: 6px;
+}
+
+/* desktop: show grid, hide compact list */
+.top-rated-grid {
+    display: grid;
+}
+
+.top-rated-list-mobile {
+    display: none;
+}
+
 /* ── Responsive ────────────────────────────────────── */
 
 @media (max-width: 640px) {
@@ -266,6 +294,14 @@
     .movie-grid {
         grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
         gap: 0.75rem;
+    }
+
+    .top-rated-grid {
+        display: none;
+    }
+
+    .top-rated-list-mobile {
+        display: block;
     }
 }
 

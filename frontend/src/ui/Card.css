@@ -15,12 +15,21 @@
     flex-shrink: 0;
     scroll-snap-align: start;
 
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 768px) {
+    .card {
+        min-width: 160px;
+        height: 110px;
+        font-size: 1.05rem;
+    }
 }
 
 .card:hover {
     transform: translateY(-2px);
     border-color: var(--accent-primary);
+    box-shadow: var(--shadow-md);
 }
 
 .card.category {

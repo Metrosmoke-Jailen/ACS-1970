@@ -18,6 +18,14 @@ function Topbar() {
         NPS for Everything
       </NavLink>
 
+      {/* ------ DESKTOP NAV LINKS ------ */}
+      {!isAuthPage && (
+        <nav className="topbarNav">
+          <NavLink to="/" className={({ isActive }) => isActive ? "topbarNavLink active" : "topbarNavLink"} onClick={handleSetFieldHome}>Home</NavLink>
+          <NavLink to="/movie" className={({ isActive }) => isActive ? "topbarNavLink active" : "topbarNavLink"}>Movies</NavLink>
+        </nav>
+      )}
+
       {/* ------ CONDITIONAL CONTENT ------ */}
       {isAuthPage ? (
         <div className="topbarContent">
