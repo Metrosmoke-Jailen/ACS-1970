@@ -71,7 +71,27 @@ function TopRated({ movies }) {
     return (
         <div className="view-section">
             <p className="view-desc">The 25 highest NPS-scoring films in the catalogue.</p>
-            <RankedMovieList movies={sorted} />
+            <div className="movie-grid top-rated-grid">
+                {sorted.map((m, i) => (
+                    <Link key={m.slug} className="movie-card" to={`/movies/${m.slug}`}>
+                        <div className="movie-poster-wrap">
+                            {m.poster_url
+                                ? <img src={m.poster_url} alt={m.title} className="movie-poster" />
+                                : <div className="movie-poster-placeholder" />
+                            }
+                            <span className="rank-badge">{i + 1}</span>
+                        </div>
+                        <div className="movie-info">
+                            <p className="movie-title">{m.title}</p>
+                            <p className="muted">{m.release_date?.slice(0, 4)}</p>
+                            <p className="movie-nps">NPS {m.nps_score ?? '—'}</p>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+            <div className="top-rated-list-mobile">
+                <RankedMovieList movies={sorted} />
+            </div>
         </div>
     )
 }

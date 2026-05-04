@@ -49,6 +49,12 @@
     box-shadow: var(--shadow-sm);
 }
 
+@media (min-width: 768px) {
+    .TabNav {
+        display: none;
+    }
+}
+
 @media (max-width: 480px) {
     .tab {
         padding: 0.35rem 0.8rem;

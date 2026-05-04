@@ -86,6 +86,38 @@ header {
     color: var(--accent-primary);
 }
 
+.topbarNav {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .topbarNav {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-left: 1rem;
+    }
+
+    .topbarNavLink {
+        padding: 0.3rem 0.75rem;
+        border-radius: calc(var(--radius) - 6px);
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        transition: var(--transition);
+    }
+
+    .topbarNavLink:hover {
+        background: var(--accent-secondary);
+        color: var(--text-main);
+    }
+
+    .topbarNavLink.active {
+        background: var(--accent-main);
+        color: white;
+    }
+}
+
 /* On phones: hide the "Movies" field nav link (redundant with TabNav below),
    shrink auth buttons to fit */
 @media (max-width: 540px) {
