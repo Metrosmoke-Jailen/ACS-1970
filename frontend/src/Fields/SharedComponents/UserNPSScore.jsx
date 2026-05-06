@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
+import { API_ENDPOINTS } from '../../config/routes'
 import './UserNPSScore.css'
+
+const BASE = API_ENDPOINTS.BASE_URL
 
 function UserNPSScore({ movieId, onReviewSubmitted }) {
     const { isLoggedIn, userId } = useAppContext()
@@ -23,7 +26,7 @@ function UserNPSScore({ movieId, onReviewSubmitted }) {
         setSubmitting(true)
         setSubmitError(null)
         try {
-            const res = await fetch('/api/reviews/', {
+            const res = await fetch(`${BASE}/api/reviews/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

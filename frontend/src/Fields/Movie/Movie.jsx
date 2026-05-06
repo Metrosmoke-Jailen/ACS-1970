@@ -1,7 +1,10 @@
 import { useEffect, useState, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
+import { API_ENDPOINTS } from '../../config/routes'
 import './Movie.css'
+
+const BASE = API_ENDPOINTS.BASE_URL
 
 const ERAS = [
     { label: 'Silent & Early Sound', from: 0,    to: 1939 },
@@ -177,7 +180,7 @@ function Movie() {
     const isSearching = query.trim().length > 0
 
     useEffect(() => {
-        fetch('/api/movies/')
+        fetch(`${BASE}/api/movies/`)
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`)
                 return res.json()
