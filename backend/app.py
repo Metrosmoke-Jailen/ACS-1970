@@ -19,18 +19,27 @@ def create_app() -> Flask:
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key")
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
     app.config["SESSION_COOKIE_HTTPONLY"] = True
-    CORS(app, supports_credentials=True, origins=["http://localhost:5174"])
+    CORS(
+        app,
+        supports_credentials=True,
+        origins=[
+            "http://localhost:5174",
+            os.environ.get("FRONTEND_URL", ""),
+        ],
+    )
 
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
 
     with app.app_context():
+
         @event.listens_for(db.engine, "connect")
         def _set_sqlite_pragma(dbapi_conn, _):
             dbapi_conn.execute("PRAGMA foreign_keys = ON")
 
         from db.db import setup_database
+
         setup_database()
 
     app.register_blueprint(user_bp)
