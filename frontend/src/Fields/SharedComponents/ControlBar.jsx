@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
+import { API_ENDPOINTS } from '../../config/routes'
 import './ControlBar.css'
+
+const BASE = API_ENDPOINTS.BASE_URL
 
 function ControlBar({ field, movieId }) {
   const { isLoggedIn } = useAppContext()
@@ -10,7 +13,7 @@ function ControlBar({ field, movieId }) {
 
   useEffect(() => {
     if (!movieId || !isLoggedIn) return
-    fetch(`/api/favorites/${movieId}`, { credentials: 'include' })
+    fetch(`${BASE}/api/favorites/${movieId}`, { credentials: 'include' })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data) setStarred(data.favorited) })
       .catch(() => {})
@@ -21,7 +24,7 @@ function ControlBar({ field, movieId }) {
       navigate('/login')
       return
     }
-    fetch('/api/favorites/', {
+    fetch(`${BASE}/api/favorites/`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
+import { API_ENDPOINTS } from '../../config/routes'
 import './Profile.css'
+
+const BASE = API_ENDPOINTS.BASE_URL
 
 function Profile() {
     const { isLoggedIn, username, userId } = useAppContext()
@@ -19,9 +22,9 @@ function Profile() {
         }
 
         Promise.all([
-            fetch('/api/auth/check', { credentials: 'include' }).then(r => r.ok ? r.json() : null),
-            fetch(`/api/reviews/user/${userId}`, { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-            fetch('/api/favorites/', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+            fetch(`${BASE}/api/auth/check`, { credentials: 'include' }).then(r => r.ok ? r.json() : null),
+            fetch(`${BASE}/api/reviews/user/${userId}`, { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+            fetch(`${BASE}/api/favorites/`, { credentials: 'include' }).then(r => r.ok ? r.json() : []),
         ]).then(([userData, reviewsData, favoritesData]) => {
             if (userData) setEmail(userData.email)
             setReviews(reviewsData)

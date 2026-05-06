@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { API_ENDPOINTS } from '../../config/routes'
 import './Movies.css'
+
+const BASE = API_ENDPOINTS.BASE_URL
 
 import ControlBar from '../SharedComponents/ControlBar'
 import MediaOverview from './MediaOverview'
@@ -18,7 +21,7 @@ function Movies() {
   const [reviews, setReviews] = useState([])
 
   useEffect(() => {
-    fetch(`/api/movies/${slug}`)
+    fetch(`${BASE}/api/movies/${slug}`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
@@ -35,7 +38,7 @@ function Movies() {
   }, [slug])
 
   const fetchReviews = (movieId) => {
-    fetch(`/api/reviews/movie/${movieId}`)
+    fetch(`${BASE}/api/reviews/movie/${movieId}`)
       .then(r => r.ok ? r.json() : [])
       .then(setReviews)
       .catch(() => {})
